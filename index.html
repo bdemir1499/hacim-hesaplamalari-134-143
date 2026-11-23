@@ -6,18 +6,25 @@
     <title>Hacim ve Prizmalar Büyük Atölyesi • S.134-143</title>
     <style>
         :root {
-            --geo-cyan: #00b4cc;
-            --geo-cyan-dark: #008ca0;
-            --geo-teal: #14b8a6;
-            --geo-teal-dark: #0f766e;
-            --geo-pink: #f06292;
-            --geo-pink-dark: #c2185b;
-            --geo-yellow: #ffca28;
-            --geo-yellow-dark: #d98a00;
-            --dark: #1e3a5f;
-            --panel-bg: rgba(255, 255, 255, 0.96);
-            --success: #16a34a;
-            --danger: #e11d48;
+            --geo-emerald: #00796b;
+            --geo-emerald-dark: #004d40;
+            --geo-mint-bg: #e5f7f3;
+            --geo-blue: #1565c0;
+            --geo-blue-bright: #0d6efd;
+            --geo-blue-dark: #0a3d8f;
+            --geo-blue-bg: #eaf4ff;
+            --geo-orange: #ff7a00;
+            --geo-orange-dark: #c25700;
+            --geo-yellow: #f5b800;
+            --geo-yellow-dark: #b28000;
+            --geo-green: #58a728;
+            --geo-green-dark: #3b7418;
+            --geo-red: #e02424;
+            --geo-red-dark: #9b1c1c;
+            --dark: #14283c;
+            --panel-bg: #ffffff;
+            --success: #2e8b22;
+            --danger: #e02424;
         }
 
         * {
@@ -34,7 +41,7 @@
             width: 100vw;
             height: 100dvh;
             overflow: hidden;
-            background: linear-gradient(180deg, #b8eef2 0%, #d4effc 48%, #f8d8ea 100%);
+            background: linear-gradient(180deg, #e2f5f1 0%, #eef6ff 55%, #e6f2fa 100%);
             color: var(--dark);
             display: flex;
             flex-direction: column;
@@ -42,7 +49,7 @@
             position: relative;
         }
 
-        /* ARKA PLAN FERAH PASTEL DEKOR */
+        /* ARKA PLAN FERAH DEKOR */
         .bg-bubbles {
             position: fixed;
             inset: 0;
@@ -54,13 +61,13 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 34px;
+            height: 30px;
             background: repeating-linear-gradient(
                 90deg,
-                rgba(0, 180, 204, 0.11) 0px, rgba(0, 180, 204, 0.11) 24px,
-                rgba(240, 98, 146, 0.11) 24px, rgba(240, 98, 146, 0.11) 48px
+                rgba(0, 121, 107, 0.1) 0px, rgba(0, 121, 107, 0.1) 24px,
+                rgba(21, 101, 192, 0.1) 24px, rgba(21, 101, 192, 0.1) 48px
             );
-            border-top: 3px solid rgba(255, 255, 255, 0.65);
+            border-top: 2px solid rgba(0, 121, 107, 0.18);
             z-index: 0;
             pointer-events: none;
         }
@@ -93,28 +100,29 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.96);
-            border: 2.5px dashed var(--geo-cyan);
+            background: #ffffff;
+            border: 2.5px solid var(--geo-emerald);
             border-radius: 22px;
             padding: 3px 14px;
-            box-shadow: 0 3px 10px rgba(0, 180, 204, 0.16);
+            box-shadow: 0 3px 0 rgba(0, 77, 64, 0.2);
         }
         .creator-name { font-weight: 900; font-size: clamp(12.5px, 1.4vw, 15.5px); color: var(--dark); white-space: nowrap; }
         .creator-insta {
-            background: linear-gradient(90deg, #f472b6, #ec4899);
+            background: linear-gradient(180deg, var(--geo-orange), #e86900);
             color: #fff;
             text-decoration: none;
             font-size: clamp(11px, 1.2vw, 13px);
             font-weight: 800;
-            padding: 2px 9px;
+            padding: 2px 10px;
             border-radius: 14px;
+            box-shadow: 0 2px 0 var(--geo-orange-dark);
             white-space: nowrap;
         }
         .hud-right { grid-column: 3; justify-self: end; display: flex; align-items: center; gap: 6px; }
         .hud-chip {
-            background: rgba(255, 255, 255, 0.96);
+            background: #ffffff;
             color: var(--dark);
-            border: 2.5px solid var(--geo-cyan);
+            border: 2.5px solid var(--geo-blue);
             border-radius: 14px;
             padding: 3px 11px;
             font-size: clamp(12px, 1.3vw, 14.5px);
@@ -122,14 +130,14 @@
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            box-shadow: 0 3px 0 rgba(0, 140, 160, 0.25);
+            box-shadow: 0 3px 0 rgba(21, 101, 192, 0.25);
             white-space: nowrap;
         }
-        .hud-chip span { color: var(--geo-pink-dark); }
+        .hud-chip span { color: var(--geo-red); }
         .btn-sound {
             background: #fff;
-            color: var(--geo-cyan-dark);
-            border: 2.5px solid var(--geo-cyan);
+            color: var(--geo-blue);
+            border: 2.5px solid var(--geo-blue);
             border-radius: 11px;
             width: 31px;
             height: 31px;
@@ -138,7 +146,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 3px 0 rgba(0, 140, 160, 0.25);
+            box-shadow: 0 3px 0 rgba(21, 101, 192, 0.25);
         }
 
         /* 10 SAYFA SEKMESİ (S.134 -> S.143) */
@@ -153,35 +161,38 @@
             flex-shrink: 0;
         }
         .page-tab {
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px solid var(--geo-cyan);
+            background: #ffffff;
+            border: 2px solid var(--geo-emerald);
             border-radius: 10px;
-            padding: 4px 2px;
+            padding: 5px 2px;
             font-size: clamp(11px, 1.15vw, 13.5px);
             font-weight: 900;
-            color: var(--dark);
+            color: var(--geo-emerald-dark);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 3px;
-            box-shadow: 0 2.5px 0 var(--geo-cyan-dark);
+            box-shadow: 0 3px 0 var(--geo-emerald-dark);
             transition: all 0.14s;
             white-space: nowrap;
         }
         .page-tab.active {
-            background: linear-gradient(180deg, #ffd54f 0%, #ffb300 100%);
-            color: #1e293b;
-            border-color: #ffe082;
-            box-shadow: 0 2.5px 0 #d98a00;
+            background: linear-gradient(180deg, #ff8f1f 0%, var(--geo-orange) 100%);
+            color: #ffffff;
+            border-color: var(--geo-orange-dark);
+            box-shadow: 0 3px 0 var(--geo-orange-dark);
         }
         .page-tab.done-p {
-            border-color: #14b8a6;
-            background: #f0fdfa;
+            background: var(--geo-green);
+            color: #ffffff;
+            border-color: var(--geo-green-dark);
+            box-shadow: 0 3px 0 var(--geo-green-dark);
         }
         .page-tab.active.done-p {
-            background: linear-gradient(180deg, #ffd54f 0%, #ffb300 100%);
-            border-color: #ffe082;
+            background: linear-gradient(180deg, #ff8f1f 0%, var(--geo-orange) 100%);
+            border-color: var(--geo-orange-dark);
+            box-shadow: 0 3px 0 var(--geo-orange-dark);
         }
 
         /* ANA OYUN KABUĞU */
@@ -192,9 +203,9 @@
             min-height: 0;
             margin-bottom: 6px;
             background: var(--panel-bg);
-            border: 3.5px solid var(--geo-cyan);
+            border: 3.5px solid var(--geo-emerald);
             border-radius: 18px;
-            box-shadow: 0 10px 28px rgba(0, 140, 160, 0.16), 0 4px 0 var(--geo-cyan-dark);
+            box-shadow: 0 8px 24px rgba(0, 77, 64, 0.14), 0 4px 0 var(--geo-emerald-dark);
             position: relative;
             overflow: hidden;
             display: flex;
@@ -209,21 +220,21 @@
             transform: translate(-50%, -50%) rotate(-15deg);
             font-size: clamp(26px, 5vw, 58px);
             font-weight: 900;
-            color: rgba(0, 180, 204, 0.055);
+            color: rgba(0, 121, 107, 0.05);
             pointer-events: none;
             white-space: nowrap;
             z-index: 0;
         }
 
         .stage-head {
-            background: linear-gradient(90deg, #00acc1 0%, #1ec4d6 60%, #26c6da 100%);
+            background: linear-gradient(90deg, var(--geo-emerald) 0%, #0a8d7e 55%, var(--geo-blue) 100%);
             color: #fff;
             padding: 7px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 10px;
-            border-bottom: 3px solid var(--geo-yellow);
+            border-bottom: 4px solid var(--geo-yellow);
             flex-shrink: 0;
             z-index: 2;
         }
@@ -235,24 +246,25 @@
             align-items: center;
             gap: 8px;
             min-width: 0;
-            text-shadow: 0 1px 3px rgba(0, 80, 95, 0.25);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
         }
         #stage-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .page-pill {
-            background: linear-gradient(90deg, #f472b6, #ec4899);
+            background: var(--geo-red);
             color: #fff;
             font-size: 12.5px;
             padding: 2px 10px;
             border-radius: 10px;
             font-weight: 900;
-            border: 1.5px solid rgba(255, 255, 255, 0.78);
+            border: 1.5px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 2px 0 var(--geo-red-dark);
             white-space: nowrap;
             flex-shrink: 0;
         }
         .head-nav { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
         .nav-mini {
-            background: rgba(255, 255, 255, 0.22);
-            border: 1.5px solid rgba(255, 255, 255, 0.65);
+            background: rgba(255, 255, 255, 0.2);
+            border: 1.5px solid rgba(255, 255, 255, 0.78);
             color: #fff;
             border-radius: 9px;
             padding: 4px 11px;
@@ -263,8 +275,8 @@
         }
         .nav-mini:disabled { opacity: 0.4; cursor: default; }
 
-        .progress-track { width: 100%; height: 5px; background: #e0f7fa; flex-shrink: 0; z-index: 2; }
-        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #f472b6, #ffca28, #14b8a6); transition: width 0.3s ease; }
+        .progress-track { width: 100%; height: 6px; background: #d6ebe6; flex-shrink: 0; z-index: 2; }
+        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--geo-red), var(--geo-orange), var(--geo-yellow), var(--geo-green)); transition: width 0.3s ease; }
 
         /* FERAH İÇERİK GÖVDESİ */
         .stage-body {
@@ -283,12 +295,12 @@
         .scenario-card {
             width: 100%;
             max-width: 1140px;
-            background: linear-gradient(135deg, #f0fcff 0%, #fff4f9 100%);
-            border: 2.5px solid var(--geo-cyan);
-            border-left: 6px solid var(--geo-pink);
+            background: var(--geo-blue-bg);
+            border: 2.5px solid var(--geo-blue);
+            border-left: 7px solid var(--geo-blue);
             border-radius: 14px;
             padding: 10px 16px;
-            box-shadow: 0 3px 10px rgba(0, 180, 204, 0.08);
+            box-shadow: 0 3px 8px rgba(21, 101, 192, 0.08);
             flex-shrink: 0;
         }
         .scenario-text {
@@ -297,7 +309,7 @@
             color: var(--dark);
             line-height: 1.45;
         }
-        .scenario-text b { color: #007c91; font-weight: 900; }
+        .scenario-text b { color: var(--geo-blue-dark); font-weight: 900; }
 
         /* 2 SÜTUNLU FERAH ÇALIŞMA ALANI */
         .workspace-grid {
@@ -309,8 +321,8 @@
             align-items: stretch;
         }
         .model-box {
-            background: linear-gradient(180deg, #e8fbfe 0%, #f7fcff 60%, #fff2f8 100%);
-            border: 3px solid var(--geo-cyan);
+            background: var(--geo-mint-bg);
+            border: 3px solid var(--geo-emerald);
             border-radius: 16px;
             padding: 12px 14px;
             display: flex;
@@ -318,17 +330,18 @@
             align-items: center;
             justify-content: space-between;
             gap: 10px;
-            box-shadow: inset 0 0 18px rgba(0, 180, 204, 0.08);
+            box-shadow: 0 4px 0 rgba(0, 77, 64, 0.14);
         }
         .right-box {
-            background: #ffffff;
-            border: 2.5px solid #80deea;
+            background: var(--geo-blue-bg);
+            border: 3px solid var(--geo-blue);
             border-radius: 16px;
             padding: 12px 14px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             gap: 10px;
+            box-shadow: 0 4px 0 rgba(10, 61, 143, 0.14);
         }
 
         .box-header {
@@ -340,17 +353,18 @@
             gap: 6px;
         }
         .pill-title {
-            background: linear-gradient(90deg, #00acc1, #14b8a6);
+            background: var(--geo-emerald);
             color: #fff;
             font-size: clamp(13px, 1.35vw, 15.5px);
             font-weight: 900;
             padding: 4px 12px;
             border-radius: 10px;
+            box-shadow: 0 2.5px 0 var(--geo-emerald-dark);
         }
         .pill-stat {
-            background: #fffbeb;
-            border: 2px solid #f59e0b;
-            color: #92400e;
+            background: #fff8db;
+            border: 2.5px solid var(--geo-yellow-dark);
+            color: #7a5200;
             font-size: clamp(13px, 1.35vw, 15.5px);
             font-weight: 900;
             padding: 3px 11px;
@@ -366,22 +380,23 @@
             overflow: hidden;
             font-size: clamp(13px, 1.3vw, 15.5px);
             font-weight: 800;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--geo-emerald);
         }
         .book-table th {
-            background: linear-gradient(90deg, #00acc1, #14b8a6);
+            background: var(--geo-emerald);
             color: #fff;
             padding: 7px 8px;
             text-align: center;
         }
         .book-table td {
-            background: #fffdf5;
+            background: #ffffff;
             color: var(--dark);
             padding: 7px 8px;
             text-align: center;
-            border-top: 1.5px solid #cbd5e1;
+            border-top: 1.5px solid #b2dfdb;
         }
-        .book-table td.hl-cell { background: #dcfce7; color: #15803d; font-weight: 900; }
+        .book-table td.hl-cell { background: #dcfce7; color: var(--geo-green-dark); font-weight: 900; }
 
         /* 4'LÜ PRİZMA IZGARASI (S.137 SORU 1) */
         .quad-grid {
@@ -393,18 +408,19 @@
         }
         .mini-prism-card {
             background: #ffffff;
-            border: 2.5px solid var(--geo-cyan);
+            border: 3px solid var(--geo-blue);
             border-radius: 15px;
             padding: 10px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 4px 10px rgba(0, 180, 204, 0.08);
+            box-shadow: 0 4px 0 rgba(21, 101, 192, 0.22);
         }
         .mini-prism-card.solved {
-            border-color: #16a34a;
+            border-color: var(--geo-green);
             background: #f0fdf4;
+            box-shadow: 0 4px 0 rgba(59, 116, 24, 0.28);
         }
 
         /* 3'LÜ PRİZMA IZGARASI (S.143 SORU 1 & S.141 KUK 6) */
@@ -425,8 +441,8 @@
             gap: 9px;
         }
         .sub-step {
-            background: #f5fdff;
-            border: 2px dashed #4dd0e1;
+            background: #ffffff;
+            border: 2.5px solid #90caf9;
             border-radius: 13px;
             padding: 10px 13px;
             display: flex;
@@ -434,8 +450,8 @@
             gap: 8px;
             transition: all 0.25s;
         }
-        .sub-step.locked { opacity: 0.42; pointer-events: none; }
-        .sub-step.solved { background: #ecfdf5; border-style: solid; border-color: #10b981; }
+        .sub-step.locked { opacity: 0.45; pointer-events: none; }
+        .sub-step.solved { background: #f0fdf4; border-color: var(--geo-green); }
         .sub-q {
             font-size: clamp(14px, 1.45vw, 17px);
             font-weight: 800;
@@ -452,14 +468,14 @@
         .choice-btn {
             flex: 1 1 130px;
             background: #ffffff;
-            border: 2.5px solid var(--geo-cyan);
+            border: 2.5px solid var(--geo-blue);
             border-radius: 11px;
-            padding: 8px 11px;
+            padding: 9px 11px;
             font-size: clamp(13.5px, 1.42vw, 16.5px);
             font-weight: 900;
             color: var(--dark);
             cursor: pointer;
-            box-shadow: 0 3.5px 0 var(--geo-cyan-dark);
+            box-shadow: 0 4px 0 var(--geo-blue-dark);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -467,10 +483,11 @@
             gap: 5px;
             transition: all 0.12s;
         }
-        .choice-btn:hover { background: #f0fcff; transform: translateY(-1px); }
+        .choice-btn:hover { background: #e8f2ff; transform: translateY(-1px); }
         .choice-btn:active { transform: translateY(3px); box-shadow: none; }
-        .choice-btn.correct { background: #14b8a6; border-color: #0f766e; color: #fff; box-shadow: 0 3.5px 0 #0f766e; }
-        .choice-btn.wrong { background: var(--danger); border-color: #be123c; color: #fff; box-shadow: 0 3.5px 0 #be123c; animation: shake 0.35s; }
+        .choice-btn.picked-guess { background: #fff8db; border-color: var(--geo-orange); color: #7a4200; box-shadow: 0 4px 0 var(--geo-orange-dark); }
+        .choice-btn.correct { background: var(--geo-green); border-color: var(--geo-green-dark); color: #fff; box-shadow: 0 4px 0 var(--geo-green-dark); }
+        .choice-btn.wrong { background: var(--geo-red); border-color: var(--geo-red-dark); color: #fff; box-shadow: 0 4px 0 var(--geo-red-dark); animation: shake 0.35s; }
 
         /* DOĞRU / YANLIŞ SATIRLARI (S.143 SORU 2) */
         .tf-row {
@@ -479,46 +496,46 @@
             justify-content: space-between;
             gap: 12px;
             background: #ffffff;
-            border: 2.5px solid #cbd5e1;
+            border: 2.5px solid #90caf9;
             border-radius: 13px;
             padding: 9px 14px;
             width: 100%;
         }
-        .tf-row.solved { border-color: #16a34a; background: #f0fdf4; }
+        .tf-row.solved { border-color: var(--geo-green); background: #f0fdf4; }
         .tf-text { font-size: clamp(14px, 1.42vw, 16.5px); font-weight: 800; color: var(--dark); line-height: 1.38; flex: 1; }
-        .tf-btns { display: flex; gap: 7px; flex-shrink: 0; }
+        .tf-btns { display: flex; gap: 8px; flex-shrink: 0; }
         .tf-btn {
-            width: 48px;
-            height: 40px;
+            width: 50px;
+            height: 42px;
             border-radius: 10px;
-            border: 2.5px solid var(--geo-cyan);
-            background: #f0fcff;
-            color: var(--dark);
-            font-size: 16px;
+            border: 2.5px solid var(--geo-blue);
+            background: #ffffff;
+            color: var(--geo-blue-dark);
+            font-size: 17px;
             font-weight: 900;
             cursor: pointer;
-            box-shadow: 0 3px 0 var(--geo-cyan-dark);
+            box-shadow: 0 3.5px 0 var(--geo-blue-dark);
         }
-        .tf-btn.ok { background: #16a34a; border-color: #15803d; color: #fff; box-shadow: 0 3px 0 #15803d; pointer-events: none; }
-        .tf-btn.err { background: #e11d48; border-color: #be123c; color: #fff; animation: shake 0.35s; }
+        .tf-btn.ok { background: var(--geo-green); border-color: var(--geo-green-dark); color: #fff; box-shadow: 0 3.5px 0 var(--geo-green-dark); pointer-events: none; }
+        .tf-btn.err { background: var(--geo-red); border-color: var(--geo-red-dark); color: #fff; animation: shake 0.35s; }
 
         /* BİLGİ KUTUSU BANNERI (KİTAPTAKİ RESMİ KUTULAR) */
         .book-info-box {
             width: 100%;
             max-width: 1140px;
-            background: #fffbeb;
-            border: 2.5px solid #f59e0b;
-            border-left: 6px solid #d97706;
+            background: #fff8db;
+            border: 2.5px solid var(--geo-yellow-dark);
+            border-left: 7px solid var(--geo-orange);
             border-radius: 13px;
             padding: 10px 15px;
             font-size: clamp(13.5px, 1.38vw, 16px);
             font-weight: 700;
-            color: #1e293b;
+            color: var(--dark);
             line-height: 1.45;
         }
         .book-info-tag {
             display: inline-block;
-            background: #d97706;
+            background: var(--geo-orange);
             color: #fff;
             font-size: 12px;
             font-weight: 900;
@@ -527,7 +544,7 @@
             margin-bottom: 4px;
         }
 
-        /* KONTROL BUTONLARI */
+        /* KONTROL BUTONLARI (GÖRSELDEKİ TOK 3D KART RENKLERİ) */
         .controls-row {
             display: flex;
             flex-wrap: wrap;
@@ -542,9 +559,9 @@
             font-size: clamp(13px, 1.35vw, 15.5px);
             font-weight: 900;
             cursor: pointer;
-            background: linear-gradient(180deg, #ffd54f, #ffb300);
-            color: #1e293b;
-            box-shadow: 0 3.5px 0 #d98a00;
+            background: linear-gradient(180deg, #ffca28, var(--geo-yellow));
+            color: #3d2800;
+            box-shadow: 0 4px 0 var(--geo-yellow-dark);
             display: inline-flex;
             align-items: center;
             gap: 5px;
@@ -553,10 +570,10 @@
         }
         .btn-action:active { transform: translateY(3px); box-shadow: none; }
         .btn-action:disabled { opacity: 0.45; cursor: default; transform: none; }
-        .btn-action.green { background: linear-gradient(180deg, #17bfa9, #0e9f8e); color: #fff; box-shadow: 0 3.5px 0 #0a7367; }
-        .btn-action.teal { background: linear-gradient(180deg, #26c6da, #00acc1); color: #fff; box-shadow: 0 3.5px 0 #007c91; }
-        .btn-action.pink { background: linear-gradient(180deg, #f472b6, #ec4899); color: #fff; box-shadow: 0 3.5px 0 #be185d; }
-        .btn-action.gray { background: linear-gradient(180deg, #94a3b8, #64748b); color: #fff; box-shadow: 0 3.5px 0 #475569; }
+        .btn-action.green { background: linear-gradient(180deg, #68bd34, var(--geo-green)); color: #fff; box-shadow: 0 4px 0 var(--geo-green-dark); }
+        .btn-action.teal { background: linear-gradient(180deg, #0a9382, var(--geo-emerald)); color: #fff; box-shadow: 0 4px 0 var(--geo-emerald-dark); }
+        .btn-action.pink { background: linear-gradient(180deg, #f03838, var(--geo-red)); color: #fff; box-shadow: 0 4px 0 var(--geo-red-dark); }
+        .btn-action.gray { background: linear-gradient(180deg, #1e7be0, var(--geo-blue)); color: #fff; box-shadow: 0 4px 0 var(--geo-blue-dark); }
 
         /* KONTROLLÜ ALT AKSİYON ÇUBUĞU */
         .post-bar {
@@ -574,7 +591,7 @@
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(18, 60, 78, 0.58);
+            background: rgba(15, 36, 56, 0.62);
             backdrop-filter: blur(4px);
             display: none;
             align-items: center;
@@ -585,16 +602,16 @@
         .modal-overlay.open { display: flex; }
         .modal-card {
             background: #ffffff;
-            border: 4px dashed var(--geo-cyan);
+            border: 4px solid var(--geo-emerald);
             border-radius: 22px;
             padding: 22px 20px;
             max-width: 530px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 18px 45px rgba(0, 124, 145, 0.32);
+            box-shadow: 0 18px 45px rgba(0, 77, 64, 0.35);
             animation: popIn 0.3s ease;
         }
-        .modal-card h3 { color: var(--geo-cyan-dark); font-size: 24px; font-weight: 900; margin-bottom: 10px; }
+        .modal-card h3 { color: var(--geo-emerald); font-size: 24px; font-weight: 900; margin-bottom: 10px; }
         .modal-card p { color: var(--dark); font-size: 16.5px; font-weight: 700; line-height: 1.55; margin-bottom: 18px; }
         .modal-btns { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
 
@@ -607,21 +624,21 @@
             opacity: 0;
             pointer-events: none;
             z-index: 160;
-            background: #008ca0;
-            border: 2.5px solid #ffd54f;
+            background: var(--geo-blue);
+            border: 2.5px solid var(--geo-yellow);
             color: #fff;
             padding: 8px 20px;
             border-radius: 24px;
             font-size: clamp(13.5px, 1.5vw, 15.5px);
             font-weight: 800;
-            box-shadow: 0 8px 22px rgba(0, 124, 145, 0.3);
+            box-shadow: 0 8px 22px rgba(10, 61, 143, 0.32);
             transition: all 0.25s ease;
             text-align: center;
             max-width: 90vw;
         }
         #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        #toast.ok { background: #14b8a6; border-color: #ffffff; }
-        #toast.err { background: #e11d48; border-color: #fbcfe8; }
+        #toast.ok { background: var(--geo-green); border-color: #ffffff; }
+        #toast.err { background: var(--geo-red); border-color: #ffedd5; }
 
         @keyframes popIn { 0% { transform: scale(0.86); opacity: 0.4; } 100% { transform: scale(1); opacity: 1; } }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
@@ -1116,11 +1133,15 @@
 
                     <div class="right-box">
                         <div class="steps-stack">
-                            <div class="sub-step ${S.p134Guess ? 'solved' : ''}">
-                                <div class="sub-q"><b>1)</b> İki kutudan hangisinin kapasitesinin daha büyük olduğunu tahmin et:</div>
+                            <div class="sub-step ${S.p134Q4 ? 'solved' : ''}">
+                                <div class="sub-q"><b>1)</b> İki kutudan hangisinin kapasitesinin daha büyük olduğunu tahmin et:${S.p134Guess && !S.p134Q4 ? ' <span style="color:#c25700;">(Tahminin kaydedildi, deneyle test et!)</span>' : ''}</div>
                                 <div class="choice-row">
-                                    <button class="choice-btn ${S.p134Guess === '1' ? 'correct' : ''}" onclick="pickS134Guess('1')">📦 1. Kutu Daha Büyük</button>
-                                    <button class="choice-btn ${S.p134Guess === '2' ? 'correct' : ''}" onclick="pickS134Guess('2')">📦 2. Kutu Daha Büyük</button>
+                                    <button class="choice-btn ${S.p134Q4 ? 'correct' : (S.p134Guess === '1' ? 'picked-guess' : '')}" onclick="pickS134Guess('1')">
+                                        ${S.p134Q4 ? (S.p134Guess === '1' ? '✅ 1. Kutu (Tahminin Tuttu!)' : '✅ 1. Kutu (Gerçek Sonuç)') : '📦 1. Kutu Daha Büyük'}
+                                    </button>
+                                    <button class="choice-btn ${S.p134Q4 && S.p134Guess === '2' ? 'wrong' : (!S.p134Q4 && S.p134Guess === '2' ? 'picked-guess' : '')}" onclick="pickS134Guess('2')">
+                                        ${S.p134Q4 && S.p134Guess === '2' ? '❌ 2. Kutu (Tahminin Tutmadı)' : '📦 2. Kutu Daha Büyük'}
+                                    </button>
                                 </div>
                             </div>
                             <div class="sub-step ${!S.p134Guess ? 'locked' : ''} ${S.p134Q2 ? 'solved' : ''}">
@@ -1147,15 +1168,26 @@
 
         function setS134Mode(m) { initAudio(); playSound('tick'); S.p134FillMode = m; renderStep(); }
         function fillS134(boxNo) {
-            initAudio(); playSound('pop'); launchConfetti('mini');
+            initAudio();
+            playSound('pop');
+            launchConfetti('mini');
             if (S.p134FillMode === 'cubes') {
-                if (boxNo === 1) S.p134Box1Cubes = true; else S.p134Box2Cubes = true;
+                if (boxNo === 1) S.p134Box1Cubes = true;
+                else S.p134Box2Cubes = true;
             } else {
-                if (boxNo === 1) S.p134Box1Balls = true; else S.p134Box2Balls = true;
+                if (boxNo === 1) S.p134Box1Balls = true;
+                else S.p134Box2Balls = true;
             }
             renderStep();
         }
-        function pickS134Guess(g) { initAudio(); playSound('correct'); S.p134Guess = g; renderStep(); }
+        function pickS134Guess(g) {
+            initAudio();
+            if (S.p134Q4) return;
+            playSound('tick');
+            S.p134Guess = g;
+            showToast(`📝 Tahminin kaydedildi (${g}. Kutu). Kutuları doldurup doğruluğunu test edelim!`, '');
+            renderStep();
+        }
         function checkS134Q2(ok, btn) {
             initAudio(); if (S.p134Q2) return;
             if (ok) { S.p134Q2 = true; score += 20; playSound('correct'); launchConfetti('mini'); renderStep(); }
@@ -2464,7 +2496,7 @@
         function launchConfetti(size) {
             cCanvas.width = window.innerWidth;
             cCanvas.height = window.innerHeight;
-            const colors = ['#00b4cc', '#f472b6', '#ffca28', '#14b8a6', '#8b5cf6', '#fb7185'];
+            const colors = ['#e02424', '#ff7a00', '#f5b800', '#58a728', '#00796b', '#0d6efd'];
             const count = size === 'big' ? 125 : 22;
             for (let i = 0; i < count; i++) {
                 confetti.push({
