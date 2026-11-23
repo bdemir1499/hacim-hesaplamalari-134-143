@@ -1,0 +1,2505 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hacim ve Prizmalar Büyük Atölyesi • S.134-143</title>
+    <style>
+        :root {
+            --geo-cyan: #00b4cc;
+            --geo-cyan-dark: #008ca0;
+            --geo-teal: #14b8a6;
+            --geo-teal-dark: #0f766e;
+            --geo-pink: #f06292;
+            --geo-pink-dark: #c2185b;
+            --geo-yellow: #ffca28;
+            --geo-yellow-dark: #d98a00;
+            --dark: #1e3a5f;
+            --panel-bg: rgba(255, 255, 255, 0.96);
+            --success: #16a34a;
+            --danger: #e11d48;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100dvh;
+            overflow: hidden;
+            background: linear-gradient(180deg, #b8eef2 0%, #d4effc 48%, #f8d8ea 100%);
+            color: var(--dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* ARKA PLAN FERAH PASTEL DEKOR */
+        .bg-bubbles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .bottom-stripe {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 34px;
+            background: repeating-linear-gradient(
+                90deg,
+                rgba(0, 180, 204, 0.11) 0px, rgba(0, 180, 204, 0.11) 24px,
+                rgba(240, 98, 146, 0.11) 24px, rgba(240, 98, 146, 0.11) 48px
+            );
+            border-top: 3px solid rgba(255, 255, 255, 0.65);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 200;
+        }
+
+        /* ÜST HUD (İSİM KUTUSU ORTADA) */
+        .top-hud {
+            width: calc(100% - 14px);
+            max-width: 1360px;
+            padding: 5px 0 3px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 8px;
+            z-index: 15;
+            flex-shrink: 0;
+        }
+        .hud-left { grid-column: 1; justify-self: start; display: flex; align-items: center; gap: 6px; }
+        .creator-pill {
+            grid-column: 2;
+            justify-self: center;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 2.5px dashed var(--geo-cyan);
+            border-radius: 22px;
+            padding: 3px 14px;
+            box-shadow: 0 3px 10px rgba(0, 180, 204, 0.16);
+        }
+        .creator-name { font-weight: 900; font-size: clamp(12.5px, 1.4vw, 15.5px); color: var(--dark); white-space: nowrap; }
+        .creator-insta {
+            background: linear-gradient(90deg, #f472b6, #ec4899);
+            color: #fff;
+            text-decoration: none;
+            font-size: clamp(11px, 1.2vw, 13px);
+            font-weight: 800;
+            padding: 2px 9px;
+            border-radius: 14px;
+            white-space: nowrap;
+        }
+        .hud-right { grid-column: 3; justify-self: end; display: flex; align-items: center; gap: 6px; }
+        .hud-chip {
+            background: rgba(255, 255, 255, 0.96);
+            color: var(--dark);
+            border: 2.5px solid var(--geo-cyan);
+            border-radius: 14px;
+            padding: 3px 11px;
+            font-size: clamp(12px, 1.3vw, 14.5px);
+            font-weight: 900;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 3px 0 rgba(0, 140, 160, 0.25);
+            white-space: nowrap;
+        }
+        .hud-chip span { color: var(--geo-pink-dark); }
+        .btn-sound {
+            background: #fff;
+            color: var(--geo-cyan-dark);
+            border: 2.5px solid var(--geo-cyan);
+            border-radius: 11px;
+            width: 31px;
+            height: 31px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 0 rgba(0, 140, 160, 0.25);
+        }
+
+        /* 10 SAYFA SEKMESİ (S.134 -> S.143) */
+        .page-tabs {
+            width: calc(100% - 14px);
+            max-width: 1360px;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 5px;
+            margin-bottom: 5px;
+            z-index: 15;
+            flex-shrink: 0;
+        }
+        .page-tab {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid var(--geo-cyan);
+            border-radius: 10px;
+            padding: 4px 2px;
+            font-size: clamp(11px, 1.15vw, 13.5px);
+            font-weight: 900;
+            color: var(--dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            box-shadow: 0 2.5px 0 var(--geo-cyan-dark);
+            transition: all 0.14s;
+            white-space: nowrap;
+        }
+        .page-tab.active {
+            background: linear-gradient(180deg, #ffd54f 0%, #ffb300 100%);
+            color: #1e293b;
+            border-color: #ffe082;
+            box-shadow: 0 2.5px 0 #d98a00;
+        }
+        .page-tab.done-p {
+            border-color: #14b8a6;
+            background: #f0fdfa;
+        }
+        .page-tab.active.done-p {
+            background: linear-gradient(180deg, #ffd54f 0%, #ffb300 100%);
+            border-color: #ffe082;
+        }
+
+        /* ANA OYUN KABUĞU */
+        #stage-shell {
+            width: calc(100% - 14px);
+            max-width: 1360px;
+            flex: 1 1 auto;
+            min-height: 0;
+            margin-bottom: 6px;
+            background: var(--panel-bg);
+            border: 3.5px solid var(--geo-cyan);
+            border-radius: 18px;
+            box-shadow: 0 10px 28px rgba(0, 140, 160, 0.16), 0 4px 0 var(--geo-cyan-dark);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            z-index: 5;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-15deg);
+            font-size: clamp(26px, 5vw, 58px);
+            font-weight: 900;
+            color: rgba(0, 180, 204, 0.055);
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 0;
+        }
+
+        .stage-head {
+            background: linear-gradient(90deg, #00acc1 0%, #1ec4d6 60%, #26c6da 100%);
+            color: #fff;
+            padding: 7px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            border-bottom: 3px solid var(--geo-yellow);
+            flex-shrink: 0;
+            z-index: 2;
+        }
+        .head-title {
+            font-size: clamp(14px, 1.55vw, 19px);
+            font-weight: 900;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+            text-shadow: 0 1px 3px rgba(0, 80, 95, 0.25);
+        }
+        #stage-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .page-pill {
+            background: linear-gradient(90deg, #f472b6, #ec4899);
+            color: #fff;
+            font-size: 12.5px;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-weight: 900;
+            border: 1.5px solid rgba(255, 255, 255, 0.78);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .head-nav { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+        .nav-mini {
+            background: rgba(255, 255, 255, 0.22);
+            border: 1.5px solid rgba(255, 255, 255, 0.65);
+            color: #fff;
+            border-radius: 9px;
+            padding: 4px 11px;
+            font-size: 13px;
+            font-weight: 900;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .nav-mini:disabled { opacity: 0.4; cursor: default; }
+
+        .progress-track { width: 100%; height: 5px; background: #e0f7fa; flex-shrink: 0; z-index: 2; }
+        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #f472b6, #ffca28, #14b8a6); transition: width 0.3s ease; }
+
+        /* FERAH İÇERİK GÖVDESİ */
+        .stage-body {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            padding: clamp(8px, 1.4vh, 14px) clamp(12px, 1.8vw, 22px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 11px;
+            z-index: 2;
+        }
+
+        /* SENARYO / SORU KARTI */
+        .scenario-card {
+            width: 100%;
+            max-width: 1140px;
+            background: linear-gradient(135deg, #f0fcff 0%, #fff4f9 100%);
+            border: 2.5px solid var(--geo-cyan);
+            border-left: 6px solid var(--geo-pink);
+            border-radius: 14px;
+            padding: 10px 16px;
+            box-shadow: 0 3px 10px rgba(0, 180, 204, 0.08);
+            flex-shrink: 0;
+        }
+        .scenario-text {
+            font-size: clamp(14.5px, 1.45vw, 17.5px);
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1.45;
+        }
+        .scenario-text b { color: #007c91; font-weight: 900; }
+
+        /* 2 SÜTUNLU FERAH ÇALIŞMA ALANI */
+        .workspace-grid {
+            width: 100%;
+            max-width: 1140px;
+            display: grid;
+            grid-template-columns: 1.05fr 1.05fr;
+            gap: 12px;
+            align-items: stretch;
+        }
+        .model-box {
+            background: linear-gradient(180deg, #e8fbfe 0%, #f7fcff 60%, #fff2f8 100%);
+            border: 3px solid var(--geo-cyan);
+            border-radius: 16px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            box-shadow: inset 0 0 18px rgba(0, 180, 204, 0.08);
+        }
+        .right-box {
+            background: #ffffff;
+            border: 2.5px solid #80deea;
+            border-radius: 16px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .box-header {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .pill-title {
+            background: linear-gradient(90deg, #00acc1, #14b8a6);
+            color: #fff;
+            font-size: clamp(13px, 1.35vw, 15.5px);
+            font-weight: 900;
+            padding: 4px 12px;
+            border-radius: 10px;
+        }
+        .pill-stat {
+            background: #fffbeb;
+            border: 2px solid #f59e0b;
+            color: #92400e;
+            font-size: clamp(13px, 1.35vw, 15.5px);
+            font-weight: 900;
+            padding: 3px 11px;
+            border-radius: 10px;
+            white-space: nowrap;
+        }
+
+        /* KİTAP TABLOSU */
+        .book-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 11px;
+            overflow: hidden;
+            font-size: clamp(13px, 1.3vw, 15.5px);
+            font-weight: 800;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+        }
+        .book-table th {
+            background: linear-gradient(90deg, #00acc1, #14b8a6);
+            color: #fff;
+            padding: 7px 8px;
+            text-align: center;
+        }
+        .book-table td {
+            background: #fffdf5;
+            color: var(--dark);
+            padding: 7px 8px;
+            text-align: center;
+            border-top: 1.5px solid #cbd5e1;
+        }
+        .book-table td.hl-cell { background: #dcfce7; color: #15803d; font-weight: 900; }
+
+        /* 4'LÜ PRİZMA IZGARASI (S.137 SORU 1) */
+        .quad-grid {
+            width: 100%;
+            max-width: 1140px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .mini-prism-card {
+            background: #ffffff;
+            border: 2.5px solid var(--geo-cyan);
+            border-radius: 15px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(0, 180, 204, 0.08);
+        }
+        .mini-prism-card.solved {
+            border-color: #16a34a;
+            background: #f0fdf4;
+        }
+
+        /* 3'LÜ PRİZMA IZGARASI (S.143 SORU 1 & S.141 KUK 6) */
+        .tri-grid {
+            width: 100%;
+            max-width: 1140px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        /* ALT SORU KARTLARI */
+        .steps-stack {
+            width: 100%;
+            max-width: 1140px;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+        .sub-step {
+            background: #f5fdff;
+            border: 2px dashed #4dd0e1;
+            border-radius: 13px;
+            padding: 10px 13px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.25s;
+        }
+        .sub-step.locked { opacity: 0.42; pointer-events: none; }
+        .sub-step.solved { background: #ecfdf5; border-style: solid; border-color: #10b981; }
+        .sub-q {
+            font-size: clamp(14px, 1.45vw, 17px);
+            font-weight: 800;
+            color: var(--dark);
+            line-height: 1.4;
+        }
+
+        .choice-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            width: 100%;
+        }
+        .choice-btn {
+            flex: 1 1 130px;
+            background: #ffffff;
+            border: 2.5px solid var(--geo-cyan);
+            border-radius: 11px;
+            padding: 8px 11px;
+            font-size: clamp(13.5px, 1.42vw, 16.5px);
+            font-weight: 900;
+            color: var(--dark);
+            cursor: pointer;
+            box-shadow: 0 3.5px 0 var(--geo-cyan-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 5px;
+            transition: all 0.12s;
+        }
+        .choice-btn:hover { background: #f0fcff; transform: translateY(-1px); }
+        .choice-btn:active { transform: translateY(3px); box-shadow: none; }
+        .choice-btn.correct { background: #14b8a6; border-color: #0f766e; color: #fff; box-shadow: 0 3.5px 0 #0f766e; }
+        .choice-btn.wrong { background: var(--danger); border-color: #be123c; color: #fff; box-shadow: 0 3.5px 0 #be123c; animation: shake 0.35s; }
+
+        /* DOĞRU / YANLIŞ SATIRLARI (S.143 SORU 2) */
+        .tf-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: #ffffff;
+            border: 2.5px solid #cbd5e1;
+            border-radius: 13px;
+            padding: 9px 14px;
+            width: 100%;
+        }
+        .tf-row.solved { border-color: #16a34a; background: #f0fdf4; }
+        .tf-text { font-size: clamp(14px, 1.42vw, 16.5px); font-weight: 800; color: var(--dark); line-height: 1.38; flex: 1; }
+        .tf-btns { display: flex; gap: 7px; flex-shrink: 0; }
+        .tf-btn {
+            width: 48px;
+            height: 40px;
+            border-radius: 10px;
+            border: 2.5px solid var(--geo-cyan);
+            background: #f0fcff;
+            color: var(--dark);
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 3px 0 var(--geo-cyan-dark);
+        }
+        .tf-btn.ok { background: #16a34a; border-color: #15803d; color: #fff; box-shadow: 0 3px 0 #15803d; pointer-events: none; }
+        .tf-btn.err { background: #e11d48; border-color: #be123c; color: #fff; animation: shake 0.35s; }
+
+        /* BİLGİ KUTUSU BANNERI (KİTAPTAKİ RESMİ KUTULAR) */
+        .book-info-box {
+            width: 100%;
+            max-width: 1140px;
+            background: #fffbeb;
+            border: 2.5px solid #f59e0b;
+            border-left: 6px solid #d97706;
+            border-radius: 13px;
+            padding: 10px 15px;
+            font-size: clamp(13.5px, 1.38vw, 16px);
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.45;
+        }
+        .book-info-tag {
+            display: inline-block;
+            background: #d97706;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 900;
+            padding: 2px 10px;
+            border-radius: 8px;
+            margin-bottom: 4px;
+        }
+
+        /* KONTROL BUTONLARI */
+        .controls-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+        .btn-action {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 11px;
+            font-size: clamp(13px, 1.35vw, 15.5px);
+            font-weight: 900;
+            cursor: pointer;
+            background: linear-gradient(180deg, #ffd54f, #ffb300);
+            color: #1e293b;
+            box-shadow: 0 3.5px 0 #d98a00;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+            transition: transform 0.1s;
+        }
+        .btn-action:active { transform: translateY(3px); box-shadow: none; }
+        .btn-action:disabled { opacity: 0.45; cursor: default; transform: none; }
+        .btn-action.green { background: linear-gradient(180deg, #17bfa9, #0e9f8e); color: #fff; box-shadow: 0 3.5px 0 #0a7367; }
+        .btn-action.teal { background: linear-gradient(180deg, #26c6da, #00acc1); color: #fff; box-shadow: 0 3.5px 0 #007c91; }
+        .btn-action.pink { background: linear-gradient(180deg, #f472b6, #ec4899); color: #fff; box-shadow: 0 3.5px 0 #be185d; }
+        .btn-action.gray { background: linear-gradient(180deg, #94a3b8, #64748b); color: #fff; box-shadow: 0 3.5px 0 #475569; }
+
+        /* KONTROLLÜ ALT AKSİYON ÇUBUĞU */
+        .post-bar {
+            display: none;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 9px;
+            width: 100%;
+            margin-top: 2px;
+            animation: popIn 0.28s ease;
+        }
+        .post-bar.visible { display: flex; }
+
+        /* BİLGİ KUTUSU MODALI */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(18, 60, 78, 0.58);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 150;
+            padding: 16px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-card {
+            background: #ffffff;
+            border: 4px dashed var(--geo-cyan);
+            border-radius: 22px;
+            padding: 22px 20px;
+            max-width: 530px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 18px 45px rgba(0, 124, 145, 0.32);
+            animation: popIn 0.3s ease;
+        }
+        .modal-card h3 { color: var(--geo-cyan-dark); font-size: 24px; font-weight: 900; margin-bottom: 10px; }
+        .modal-card p { color: var(--dark); font-size: 16.5px; font-weight: 700; line-height: 1.55; margin-bottom: 18px; }
+        .modal-btns { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+
+        /* TOAST */
+        #toast {
+            position: fixed;
+            top: 54px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 160;
+            background: #008ca0;
+            border: 2.5px solid #ffd54f;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 24px;
+            font-size: clamp(13.5px, 1.5vw, 15.5px);
+            font-weight: 800;
+            box-shadow: 0 8px 22px rgba(0, 124, 145, 0.3);
+            transition: all 0.25s ease;
+            text-align: center;
+            max-width: 90vw;
+        }
+        #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        #toast.ok { background: #14b8a6; border-color: #ffffff; }
+        #toast.err { background: #e11d48; border-color: #fbcfe8; }
+
+        @keyframes popIn { 0% { transform: scale(0.86); opacity: 0.4; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+        @media (max-width: 900px) {
+            .workspace-grid, .quad-grid, .tri-grid { grid-template-columns: 1fr; }
+            .page-tabs { grid-template-columns: repeat(5, 1fr); }
+        }
+        @media (max-width: 680px) {
+            .top-hud { grid-template-columns: 1fr 1fr; row-gap: 4px; }
+            .creator-pill { grid-column: 1 / -1; grid-row: 1; }
+            .hud-left { grid-column: 1; grid-row: 2; }
+            .hud-right { grid-column: 2; grid-row: 2; }
+            .tf-row { flex-direction: column; align-items: flex-start; }
+            .tf-btns { align-self: flex-end; }
+        }
+    </style>
+</head>
+<body>
+
+    <svg class="bg-bubbles" viewBox="0 0 1200 700" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.28">
+            <circle cx="90" cy="115" r="44" fill="#ffffff"/>
+            <circle cx="1110" cy="130" r="56" fill="#ffffff"/>
+            <circle cx="155" cy="595" r="38" fill="#f472b6" opacity="0.35"/>
+            <circle cx="1055" cy="580" r="48" fill="#26c6da" opacity="0.35"/>
+            <circle cx="610" cy="75" r="24" fill="#ffca28" opacity="0.4"/>
+        </g>
+    </svg>
+    <div class="bottom-stripe"></div>
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- ÜST HUD (İSİM KUTUSU TAM ORTADA) -->
+    <div class="top-hud">
+        <div class="hud-left">
+            <div class="hud-chip">🏆 Adım: <span id="hud-step">1/17</span></div>
+        </div>
+        <div class="creator-pill">
+            <span class="creator-name">Bekir DEMİREL</span>
+            <a class="creator-insta" href="https://instagram.com/matejital_mt25" target="_blank" rel="noopener">@matejital_mt25 ✔</a>
+        </div>
+        <div class="hud-right">
+            <div class="hud-chip">⭐ Puan: <span id="hud-score">0</span></div>
+            <button class="btn-sound" id="sound-btn" title="Sesi Aç/Kapat">🔊</button>
+        </div>
+    </div>
+
+    <!-- 10 SAYFA SEKMESİ (S.134 -> S.143 SIRALI) -->
+    <div class="page-tabs" id="page-tabs"></div>
+
+    <!-- ANA OYUN KABUĞU -->
+    <div id="stage-shell">
+        <div class="watermark">@matejital_mt25 • Bekir DEMİREL</div>
+
+        <div class="stage-head">
+            <div class="head-title">
+                <span id="stage-title">Hacmi Eş Nesnelerle Yorumlama</span>
+                <span class="page-pill" id="stage-page">Sayfa 134</span>
+            </div>
+            <div class="head-nav">
+                <button class="nav-mini" id="btn-prev" onclick="prevStep()">◀️ Önceki</button>
+                <button class="nav-mini" id="btn-next" onclick="nextStep()">Sonraki ▶️</button>
+            </div>
+        </div>
+        <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+
+        <div class="stage-body" id="stage-body"></div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast">Bildirim</div>
+
+    <!-- KONTROLLÜ BİLGİ KUTUSU MODALI -->
+    <div class="modal-overlay" id="info-modal">
+        <div class="modal-card">
+            <h3>💡 Bilgi Kutusu</h3>
+            <p id="info-modal-text">...</p>
+            <div class="modal-btns">
+                <button class="btn-action gray" onclick="closeInfoModal()">Kapat ✖</button>
+                <button class="btn-action green" id="info-modal-next" onclick="closeInfoModal(); nextStep();">Sonraki Adım ➡️</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // NEŞELİ SES MOTORU (WEB AUDIO API)
+        // ==========================================
+        let audioCtx = null;
+        let soundOn = true;
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        document.getElementById('sound-btn').addEventListener('click', () => {
+            soundOn = !soundOn;
+            document.getElementById('sound-btn').innerText = soundOn ? '🔊' : '🔇';
+        });
+
+        function playSound(type) {
+            if (!soundOn) return;
+            try {
+                initAudio();
+                const now = audioCtx.currentTime;
+                if (type === 'fanfare') {
+                    [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((f, i) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g); g.connect(audioCtx.destination);
+                        o.type = 'triangle';
+                        o.frequency.setValueAtTime(f, now + i * 0.075);
+                        g.gain.setValueAtTime(0.22, now + i * 0.075);
+                        g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.075 + 0.28);
+                        o.start(now + i * 0.075); o.stop(now + i * 0.075 + 0.29);
+                    });
+                    return;
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain); gain.connect(audioCtx.destination);
+
+                if (type === 'pop') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(420, now);
+                    osc.frequency.exponentialRampToValueAtTime(780, now + 0.09);
+                    gain.gain.setValueAtTime(0.14, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.11);
+                    osc.start(now); osc.stop(now + 0.12);
+                } else if (type === 'tick') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(540, now);
+                    osc.frequency.exponentialRampToValueAtTime(840, now + 0.045);
+                    gain.gain.setValueAtTime(0.11, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.055);
+                    osc.start(now); osc.stop(now + 0.06);
+                } else if (type === 'correct') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(587.33, now);
+                    osc.frequency.setValueAtTime(880, now + 0.08);
+                    gain.gain.setValueAtTime(0.22, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    osc.start(now); osc.stop(now + 0.26);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(210, now);
+                    osc.frequency.linearRampToValueAtTime(130, now + 0.24);
+                    gain.gain.setValueAtTime(0.18, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.26);
+                    osc.start(now); osc.stop(now + 0.27);
+                }
+            } catch (e) {}
+        }
+
+        function fmtInt(n) {
+            return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+        }
+
+        // ==========================================
+        // ORTAK 3D İZOMETRİK PRİZMA & KÜP SVG MOTORU
+        // ==========================================
+        function buildIsoBoxSVG(nx, ny, nz, opts = {}) {
+            const {
+                colors = { top: '#38bdf8', left: '#0ea5e9', right: '#0284c7', stroke: '#0f172a' },
+                mode = 'full', // 'full' | 'layers_y' | 'layers_x' | 'layers_z' | 'skeleton_plus_col' | 'balls'
+                filled = ny,
+                unit = 16,
+                showWireframe = true,
+                labels = null, // { x, y, z }
+                viewW = 280,
+                viewH = 200
+            } = opts;
+
+            const dx = unit * 0.92;
+            const dy = unit * 0.46;
+            const dh = unit * 0.95;
+
+            // Prizmayı merkeze oturt
+            const ox = viewW / 2 + (nz - nx) * dx * 0.5;
+            const oy = viewH / 2 + (ny * dh - (nx + nz) * dy) * 0.42 + 12;
+
+            const proj = (x, y, z) => [
+                ox + (x - z) * dx,
+                oy + (x + z) * dy - y * dh
+            ];
+            const pt = (x, y, z) => proj(x, y, z).map(v => v.toFixed(1)).join(',');
+
+            const drawCube = (x, y, z, col = colors) => {
+                const pTop = `${pt(x, y + 1, z)} ${pt(x + 1, y + 1, z)} ${pt(x + 1, y + 1, z + 1)} ${pt(x, y + 1, z + 1)}`;
+                const pLeft = `${pt(x, y + 1, z + 1)} ${pt(x + 1, y + 1, z + 1)} ${pt(x + 1, y, z + 1)} ${pt(x, y, z + 1)}`;
+                const pRight = `${pt(x + 1, y + 1, z + 1)} ${pt(x + 1, y + 1, z)} ${pt(x + 1, y, z)} ${pt(x + 1, y, z + 1)}`;
+                return `
+                    <polygon points="${pLeft}" fill="${col.left}" stroke="${col.stroke}" stroke-width="1.15" stroke-linejoin="round"/>
+                    <polygon points="${pRight}" fill="${col.right}" stroke="${col.stroke}" stroke-width="1.15" stroke-linejoin="round"/>
+                    <polygon points="${pTop}" fill="${col.top}" stroke="${col.stroke}" stroke-width="1.15" stroke-linejoin="round"/>
+                `;
+            };
+
+            let svg = `<svg viewBox="0 0 ${viewW} ${viewH}" style="width:100%; max-width:${viewW}px; height:auto; display:block;" xmlns="http://www.w3.org/2000/svg">`;
+
+            // Arka şeffaf tel kafes
+            if (showWireframe) {
+                svg += `<polygon points="${pt(0,0,0)} ${pt(nx,0,0)} ${pt(nx,ny,0)} ${pt(0,ny,0)}" fill="rgba(226,232,240,0.45)" stroke="#64748b" stroke-width="1.3"/>`;
+                svg += `<polygon points="${pt(0,0,0)} ${pt(0,0,nz)} ${pt(0,ny,nz)} ${pt(0,ny,0)}" fill="rgba(203,213,225,0.45)" stroke="#64748b" stroke-width="1.3"/>`;
+                svg += `<polygon points="${pt(0,0,0)} ${pt(nx,0,0)} ${pt(nx,0,nz)} ${pt(0,0,nz)}" fill="rgba(241,245,249,0.55)" stroke="#64748b" stroke-width="1.3"/>`;
+            }
+
+            // Küpleri veya topları arkadan öne doğru çiz (painter's algorithm)
+            if (mode === 'balls') {
+                let drawn = 0;
+                for (let y = 0; y < ny; y++) {
+                    for (let z = 0; z < nz; z++) {
+                        for (let x = 0; x < nx; x++) {
+                            if (drawn >= filled) break;
+                            const [cx, cy] = proj(x + 0.5, y + 0.5, z + 0.5);
+                            const r = unit * 0.48;
+                            svg += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="#fb923c" stroke="#9a3412" stroke-width="1.2"/>`;
+                            svg += `<circle cx="${(cx - r * 0.28).toFixed(1)}" cy="${(cy - r * 0.28).toFixed(1)}" r="${(r * 0.28).toFixed(1)}" fill="#ffedd5" opacity="0.75"/>`;
+                            drawn++;
+                        }
+                    }
+                }
+            } else {
+                for (let y = 0; y < ny; y++) {
+                    for (let z = 0; z < nz; z++) {
+                        for (let x = 0; x < nx; x++) {
+                            let show = false;
+                            if (mode === 'full') show = true;
+                            else if (mode === 'layers_y') show = (y < filled);
+                            else if (mode === 'layers_x') show = (x < filled);
+                            else if (mode === 'layers_z') show = (z < filled);
+                            else if (mode === 'skeleton_plus_col') {
+                                // Taban + 1 köşe sütunu (S.137 Soru 1 ilk hâli)
+                                show = (y === 0) || (x === 0 && z === 0) || (y < filled);
+                            }
+                            if (show) svg += drawCube(x, y, z);
+                        }
+                    }
+                }
+            }
+
+            // Ön şeffaf tel kafes
+            if (showWireframe) {
+                svg += `<polyline points="${pt(0,ny,0)} ${pt(nx,ny,0)} ${pt(nx,ny,nz)} ${pt(0,ny,nz)} ${pt(0,ny,0)}" fill="none" stroke="#1e293b" stroke-width="1.6"/>`;
+                svg += `<line x1="${proj(nx,0,nz)[0]}" y1="${proj(nx,0,nz)[1]}" x2="${proj(nx,ny,nz)[0]}" y2="${proj(nx,ny,nz)[1]}" stroke="#1e293b" stroke-width="1.6"/>`;
+                svg += `<line x1="${proj(0,0,nz)[0]}" y1="${proj(0,0,nz)[1]}" x2="${proj(0,ny,nz)[0]}" y2="${proj(0,ny,nz)[1]}" stroke="#1e293b" stroke-width="1.4"/>`;
+                svg += `<line x1="${proj(nx,0,0)[0]}" y1="${proj(nx,0,0)[1]}" x2="${proj(nx,ny,0)[0]}" y2="${proj(nx,ny,0)[1]}" stroke="#1e293b" stroke-width="1.4"/>`;
+                svg += `<polyline points="${pt(0,0,nz)} ${pt(nx,0,nz)} ${pt(nx,0,0)}" fill="none" stroke="#1e293b" stroke-width="1.6"/>`;
+            }
+
+            // Ayrıt etiketleri
+            if (labels) {
+                if (labels.x) {
+                    const p = proj(nx / 2, 0, nz + 0.55);
+                    svg += `<text x="${p[0]}" y="${p[1] + 6}" text-anchor="middle" font-size="12.5" font-weight="900" fill="#0f172a">${labels.x}</text>`;
+                }
+                if (labels.z) {
+                    const p = proj(nx + 0.65, 0, nz / 2);
+                    svg += `<text x="${p[0] + 4}" y="${p[1] + 5}" text-anchor="start" font-size="12.5" font-weight="900" fill="#0f172a">${labels.z}</text>`;
+                }
+                if (labels.y) {
+                    const p = proj(nx + 0.55, ny / 2, 0);
+                    svg += `<text x="${p[0] + 6}" y="${p[1] + 4}" text-anchor="start" font-size="12.5" font-weight="900" fill="#b91c1c">${labels.y}</text>`;
+                }
+            }
+
+            svg += `</svg>`;
+            return svg;
+        }
+
+        // ==========================================
+        // 17 ADIMLIK TAM VERİTABANI (S.134 → S.143 EKSİKSİZ)
+        // ==========================================
+        const STEPS = [
+            { id: 's134', page: 134, title: 'Katıl-Uygula-Keşfet 4 • Kutuların Kapasitelerini Karşılaştırma' },
+            { id: 's135_dta4', page: 135, title: 'Düşün-Tartış-Açıkla 4 • Alper\'in Makarna Kutuları' },
+            { id: 's135_dta5', page: 135, title: 'Düşün-Tartış-Açıkla 5 • Tuğla Depoları (Depo 1 & Depo 2)' },
+            { id: 's136_dta6', page: 136, title: 'Düşün-Tartış-Açıkla 6 • Ali ve Filiz\'in Ahşap Denge Kuleleri' },
+            { id: 's137_q1', page: 137, title: 'Neler Öğrendik? • Soru 1 (a, b, c, ç Prizma Hacimleri)' },
+            { id: 's137_q2', page: 137, title: 'Neler Öğrendik? • Soru 2 (2 br\'lik 10 Eş Küp)' },
+            { id: 's137_q3', page: 137, title: 'Neler Öğrendik? • Soru 3 (a & b • Eczane İlaç Rafı)' },
+            { id: 's138_dta7', page: 138, title: 'Düşün-Tartış-Açıkla 7 • Cam Kap ve Birim Küp' },
+            { id: 's138_uyg2', page: 138, title: 'Uygulayalım 2 • Birim Küplerle Hacim Bulma (a & b)' },
+            { id: 's139_dta8', page: 139, title: 'Düşün-Tartış-Açıkla 8 • Ahmet, Ceren ve Mehmet\'in Yöntemleri' },
+            { id: 's140_dta8', page: 140, title: 'DTA 8 Soru 5 • Hacim Bağıntısı & Bilgi Kutusu' },
+            { id: 's141_kuk5', page: 141, title: 'Katıl-Uygula-Keşfet 5 • 18 Eş Küple Farklı Prizmalar' },
+            { id: 's141_kuk6', page: 141, title: 'Katıl-Uygula-Keşfet 6 • Farklı Görünümlerde Eşit Hacimli Yapılar' },
+            { id: 's142_dta9', page: 142, title: 'Düşün-Tartış-Açıkla 9 • Doruk (Kare Prizma) ve Emel (Küp)' },
+            { id: 's143_q1', page: 143, title: 'Neler Öğrendik? • Soru 1 (a, b, c Prizma Hacimleri)' },
+            { id: 's143_q2', page: 143, title: 'Neler Öğrendik? • Soru 2 (Doğru / Yanlış Değerlendirme)' },
+            { id: 's143_q3', page: 143, title: 'Neler Öğrendik? • Soru 3 (Kesilmiş Dikdörtgenler Prizması)' }
+        ];
+
+        const PAGES = [134, 135, 136, 137, 138, 139, 140, 141, 142, 143];
+
+        // ==========================================
+        // OYUN DURUMU
+        // ==========================================
+        let currentIdx = 0;
+        let score = 0;
+        let stepSolved = Array(STEPS.length).fill(false);
+        let currentModalNote = '';
+
+        // Adım bazlı etkileşim durumları
+        const S = {
+            // S.134
+            p134Guess: null,
+            p134Q2: false,
+            p134FillMode: 'cubes', // 'cubes' | 'balls'
+            p134Box1Cubes: false, p134Box2Cubes: false,
+            p134Box1Balls: false, p134Box2Balls: false,
+            p134Q4: false,
+            // S.135 DTA 4
+            p135PastaZoom: false,
+            p135Dta4Ans: false,
+            // S.135 DTA 5
+            depo1Layers: 1, depo2Layers: 1,
+            p135Dta5Q1: false, p135Dta5Q2: false,
+            // S.136 DTA 6
+            aliLayers: 1, filizLayers: 1,
+            p136Q: false,
+            // S.137 Q1
+            q1Fill: [1, 1, 1, 1],
+            q1Done: [false, false, false, false],
+            // S.137 Q2
+            q2View: 0, // 0: 1x1x10 (2x2x20), 1: 1x2x5 (2x4x10)
+            q2VolDone: false, q2EdgeDone: false,
+            // S.137 Q3
+            q3Fill: 1,
+            q3aDone: false, q3bDone: false,
+            // S.138 DTA 7
+            camView: 1, // 1, 2, 3
+            dta7a: false, dta7b: false,
+            // S.138 UYG 2
+            uyg2aLayer: 1, uyg2bLayer: 1,
+            uyg2aDone: false, uyg2bDone: false,
+            // S.139 DTA 8
+            dta8Method: 'ahmet', // ahmet | ceren | mehmet
+            dta8Fill: 1,
+            dta8Q1: false, dta8Q2: false, dta8Q3: false, dta8Q4: false,
+            // S.140
+            s140Highlighted: false,
+            s140Q5: false, s140NoteQ: false,
+            // S.141 KUK 5
+            kuk5Active: 0,
+            kuk5Seen: [true, false, false, false],
+            kuk5a: false, kuk5b: false,
+            // S.141 KUK 6
+            kuk6a: false, kuk6b: false,
+            // S.142 DTA 9
+            dorukLayers: 1, emelLayers: 1,
+            dta9Q1: false, dta9Q2: false,
+            // S.143 Q1
+            s143q1Done: [false, false, false],
+            // S.143 Q2
+            s143q2Done: [false, false, false, false, false],
+            // S.143 Q3
+            s143q3Vol: false,
+            s143q3Found: [] // '1-6-6', '2-3-6', '3-3-4'
+        };
+
+        function buildPageTabs() {
+            const bar = document.getElementById('page-tabs');
+            bar.innerHTML = '';
+            PAGES.forEach(p => {
+                const firstStepIdx = STEPS.findIndex(st => st.page === p);
+                const pageSteps = STEPS.map((st, idx) => ({ st, idx })).filter(x => x.st.page === p);
+                const allDone = pageSteps.every(x => stepSolved[x.idx]);
+                const isAct = STEPS[currentIdx].page === p;
+                const btn = document.createElement('button');
+                btn.className = `page-tab ${isAct ? 'active' : ''} ${allDone ? 'done-p' : ''}`;
+                btn.innerHTML = `S.${p}${allDone ? ' ✓' : ''}`;
+                btn.onclick = () => jumpStep(firstStepIdx);
+                bar.appendChild(btn);
+            });
+        }
+
+        function updateHUD() {
+            const st = STEPS[currentIdx];
+            document.getElementById('hud-step').innerText = `${currentIdx + 1}/${STEPS.length}`;
+            document.getElementById('hud-score').innerText = score;
+            document.getElementById('stage-title').innerText = st.title;
+            document.getElementById('stage-page').innerText = `Sayfa ${st.page}`;
+
+            const doneCnt = stepSolved.filter(Boolean).length;
+            document.getElementById('progress-bar').style.width = `${(doneCnt / STEPS.length) * 100}%`;
+
+            document.getElementById('btn-prev').disabled = (currentIdx === 0);
+            document.getElementById('btn-next').disabled = (currentIdx === STEPS.length - 1);
+            buildPageTabs();
+        }
+
+        function jumpStep(idx) {
+            initAudio();
+            playSound('tick');
+            currentIdx = Math.max(0, Math.min(STEPS.length - 1, idx));
+            renderStep(true);
+        }
+        function prevStep() { if (currentIdx > 0) jumpStep(currentIdx - 1); }
+        function nextStep() {
+            if (currentIdx < STEPS.length - 1) jumpStep(currentIdx + 1);
+            else showFinalCelebration();
+        }
+
+        function renderStep(scrollToTop = false) {
+            updateHUD();
+            const st = STEPS[currentIdx];
+            const body = document.getElementById('stage-body');
+            const prevScroll = body.scrollTop;
+            body.innerHTML = '';
+
+            switch (st.id) {
+                case 's134': renderS134(body); break;
+                case 's135_dta4': renderS135Dta4(body); break;
+                case 's135_dta5': renderS135Dta5(body); break;
+                case 's136_dta6': renderS136Dta6(body); break;
+                case 's137_q1': renderS137Q1(body); break;
+                case 's137_q2': renderS137Q2(body); break;
+                case 's137_q3': renderS137Q3(body); break;
+                case 's138_dta7': renderS138Dta7(body); break;
+                case 's138_uyg2': renderS138Uyg2(body); break;
+                case 's139_dta8': renderS139Dta8(body); break;
+                case 's140_dta8': renderS140Dta8(body); break;
+                case 's141_kuk5': renderS141Kuk5(body); break;
+                case 's141_kuk6': renderS141Kuk6(body); break;
+                case 's142_dta9': renderS142Dta9(body); break;
+                case 's143_q1': renderS143Q1(body); break;
+                case 's143_q2': renderS143Q2(body); break;
+                case 's143_q3': renderS143Q3(body); break;
+            }
+            body.scrollTop = scrollToTop ? 0 : prevScroll;
+        }
+
+        // ==========================================
+        // ADIM 1: SAYFA 134 (KATIL-UYGULA-KEŞFET 4)
+        // ==========================================
+        function renderS134(body) {
+            const allFilled = S.p134Box1Cubes && S.p134Box2Cubes && S.p134Box1Balls && S.p134Box2Balls;
+            const isCubes = S.p134FillMode === 'cubes';
+
+            const box1Svg = buildIsoBoxSVG(4, 2, 3, {
+                mode: isCubes ? 'layers_y' : 'balls',
+                filled: isCubes ? (S.p134Box1Cubes ? 2 : 0) : (S.p134Box1Balls ? 12 : 0),
+                unit: 18, viewW: 210, viewH: 150,
+                colors: { top: '#38bdf8', left: '#0ea5e9', right: '#0284c7', stroke: '#0f172a' }
+            });
+            const box2Svg = buildIsoBoxSVG(3, 2, 3, {
+                mode: isCubes ? 'layers_y' : 'balls',
+                filled: isCubes ? (S.p134Box2Cubes ? 2 : 0) : (S.p134Box2Balls ? 9 : 0),
+                unit: 18, viewW: 210, viewH: 150,
+                colors: { top: '#f472b6', left: '#ec4899', right: '#db2777', stroke: '#0f172a' }
+            });
+
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        📦 <b>Katıl-Uygula-Keşfet 4 (Sayfa 134):</b> Benzer büyüklüklere sahip dikdörtgen prizması şeklinde iki adet kutu (<b>1. Kutu: Parfüm Kutusu</b>, <b>2. Kutu: İlaç Kutusu</b>), çok sayıda <b>sayı küpü</b> ve <b>pinpon topu</b> ile kapasite karşılaştırması yapalım!
+                    </div>
+                </div>
+                <div class="workspace-grid">
+                    <div class="model-box">
+                        <div class="box-header">
+                            <span class="pill-title">🧪 Canlı Kutu Doldurma Deneyi</span>
+                            <div style="display:flex; gap:5px;">
+                                <button class="btn-action ${isCubes ? 'teal' : 'gray'}" style="padding:5px 10px; font-size:12.5px;" onclick="setS134Mode('cubes')">🧊 Sayı Küpü</button>
+                                <button class="btn-action ${!isCubes ? 'pink' : 'gray'}" style="padding:5px 10px; font-size:12.5px;" onclick="setS134Mode('balls')">🏓 Pinpon Topu</button>
+                            </div>
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%;">
+                            <div style="background:#fff; border:2px solid #7dd3fc; border-radius:12px; padding:8px; text-align:center;">
+                                <div style="font-weight:900; color:#0284c7; margin-bottom:4px;">1. Kutu (Parfüm)</div>
+                                ${box1Svg}
+                                <button class="btn-action green" style="padding:6px 10px; font-size:12.5px; margin-top:4px;" onclick="fillS134(1)">
+                                    ${isCubes ? (S.p134Box1Cubes ? '✅ 24 Sayı Küpü' : '🧊 Küplerle Doldur') : (S.p134Box1Balls ? '✅ 12 Pinpon Topu' : '🏓 Toplarla Doldur')}
+                                </button>
+                            </div>
+                            <div style="background:#fff; border:2px solid #f9a8d4; border-radius:12px; padding:8px; text-align:center;">
+                                <div style="font-weight:900; color:#db2777; margin-bottom:4px;">2. Kutu (İlaç)</div>
+                                ${box2Svg}
+                                <button class="btn-action green" style="padding:6px 10px; font-size:12.5px; margin-top:4px;" onclick="fillS134(2)">
+                                    ${isCubes ? (S.p134Box2Cubes ? '✅ 18 Sayı Küpü' : '🧊 Küplerle Doldur') : (S.p134Box2Balls ? '✅ 9 Pinpon Topu' : '🏓 Toplarla Doldur')}
+                                </button>
+                            </div>
+                        </div>
+                        <table class="book-table">
+                            <tr><th>Kutu</th><th>1. Nesne (Sayı Küpü)</th><th>2. Nesne (Pinpon Topu)</th></tr>
+                            <tr><td><b>1. Kutu</b></td><td class="${S.p134Box1Cubes ? 'hl-cell' : ''}">${S.p134Box1Cubes ? '24 adet' : '...'}</td><td class="${S.p134Box1Balls ? 'hl-cell' : ''}">${S.p134Box1Balls ? '12 adet' : '...'}</td></tr>
+                            <tr><td><b>2. Kutu</b></td><td class="${S.p134Box2Cubes ? 'hl-cell' : ''}">${S.p134Box2Cubes ? '18 adet' : '...'}</td><td class="${S.p134Box2Balls ? 'hl-cell' : ''}">${S.p134Box2Balls ? '9 adet' : '...'}</td></tr>
+                        </table>
+                    </div>
+
+                    <div class="right-box">
+                        <div class="steps-stack">
+                            <div class="sub-step ${S.p134Guess ? 'solved' : ''}">
+                                <div class="sub-q"><b>1)</b> İki kutudan hangisinin kapasitesinin daha büyük olduğunu tahmin et:</div>
+                                <div class="choice-row">
+                                    <button class="choice-btn ${S.p134Guess === '1' ? 'correct' : ''}" onclick="pickS134Guess('1')">📦 1. Kutu Daha Büyük</button>
+                                    <button class="choice-btn ${S.p134Guess === '2' ? 'correct' : ''}" onclick="pickS134Guess('2')">📦 2. Kutu Daha Büyük</button>
+                                </div>
+                            </div>
+                            <div class="sub-step ${!S.p134Guess ? 'locked' : ''} ${S.p134Q2 ? 'solved' : ''}">
+                                <div class="sub-q"><b>2)</b> Kutuların kapasitelerini sayı küpü ve pinpon topu ile karşılaştırmak için nasıl bir yol izlersin?</div>
+                                <div class="choice-row">
+                                    <button class="choice-btn ${S.p134Q2 ? 'correct' : ''}" onclick="checkS134Q2(true, this)">Her iki kutuyu da aynı eş nesneyle tamamen doldurup sayarız.</button>
+                                    <button class="choice-btn" onclick="checkS134Q2(false, this)">Birini küple, diğerini topla doldurup sayıları karşılaştırırız.</button>
+                                </div>
+                            </div>
+                            <div class="sub-step ${!allFilled || !S.p134Q2 ? 'locked' : ''} ${S.p134Q4 ? 'solved' : ''}">
+                                <div class="sub-q"><b>3 &amp; 4)</b> Tablodaki sonuçlara göre hangi kutunun kapasitesi daha büyüktür?</div>
+                                <div class="choice-row">
+                                    <button class="choice-btn ${S.p134Q4 ? 'correct' : ''}" onclick="checkS134Q4(true, this)"><b>1. Kutu</b> (24 &gt; 18 küp ve 12 &gt; 9 top)</button>
+                                    <button class="choice-btn" onclick="checkS134Q4(false, this)">2. Kutu daha büyüktür</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+                    </div>
+                </div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('Harika! Her iki eş nesneyle de (sayı küpü: 24 &gt; 18, pinpon topu: 12 &gt; 9) <b>1. Kutunun</b> kapasitesinin daha büyük olduğunu kanıtladın! Ayrıca küpler arada boşluk bırakmadığı için daha hassas ölçüm sağlar.');
+        }
+
+        function setS134Mode(m) { initAudio(); playSound('tick'); S.p134FillMode = m; renderStep(); }
+        function fillS134(boxNo) {
+            initAudio(); playSound('pop'); launchConfetti('mini');
+            if (S.p134FillMode === 'cubes') {
+                if (boxNo === 1) S.p134Box1Cubes = true; else S.p134Box2Cubes = true;
+            } else {
+                if (boxNo === 1) S.p134Box1Balls = true; else S.p134Box2Balls = true;
+            }
+            renderStep();
+        }
+        function pickS134Guess(g) { initAudio(); playSound('correct'); S.p134Guess = g; renderStep(); }
+        function checkS134Q2(ok, btn) {
+            initAudio(); if (S.p134Q2) return;
+            if (ok) { S.p134Q2 = true; score += 20; playSound('correct'); launchConfetti('mini'); renderStep(); }
+            else { playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380); showToast('✖ Doğru karşılaştırma için iki kutuda da AYNI eş nesne kullanılmalıdır!', 'err'); }
+        }
+        function checkS134Q4(ok, btn) {
+            initAudio(); if (S.p134Q4) return;
+            if (ok) { S.p134Q4 = true; completeStep('Harika! Her iki eş nesneyle de (sayı küpü: 24 &gt; 18, pinpon topu: 12 &gt; 9) <b>1. Kutunun</b> kapasitesinin daha büyük olduğunu kanıtladın!'); renderStep(); }
+            else { playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380); showToast('✖ Tablodaki 1. Kutu ve 2. Kutu sayılarını karşılaştıralım!', 'err'); }
+        }
+
+        // ==========================================
+        // ADIM 2: SAYFA 135 • DTA 4 (MAKARNA KUTULARI)
+        // ==========================================
+        function renderS135Dta4(body) {
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        🍝 <b>Düşün-Tartış-Açıkla 4 (Sayfa 135):</b> Alper, kapasiteleri birbirine oldukça yakın iki makarna kutusunu saymış: <i>"İlk kutuda <b>594 çubuk makarna</b>, ikinci kutuda <b>495 fiyonk makarna</b> var. Bu durumda ilk kutunun kapasitesi daha fazladır."</i> demiştir.
+                    </div>
+                </div>
+                <div class="workspace-grid">
+                    <div class="model-box">
+                        <div class="box-header">
+                            <span class="pill-title">🍝 Alper'in Makarna Kutuları</span>
+                            <span class="pill-stat">594 Çubuk vs 495 Fiyonk</span>
+                        </div>
+                        <svg viewBox="0 0 340 165" style="width:100%; max-width:340px; height:auto; cursor:pointer;" onclick="togglePastaZoom()">
+                            <!-- Çubuk Makarna Kutusu -->
+                            <rect x="26" y="16" width="96" height="136" rx="8" fill="#0e7490" stroke="#0f172a" stroke-width="2.5"/>
+                            <rect x="38" y="38" width="72" height="78" rx="6" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+                            ${Array.from({length: 11}, (_, i) => `<line x1="${44 + i * 6}" y1="42" x2="${44 + i * 6}" y2="112" stroke="#eab308" stroke-width="2.5"/>`).join('')}
+                            <text x="74" y="138" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">ÇUBUK (594)</text>
+
+                            <!-- Fiyonk Makarna Kutusu -->
+                            <rect x="168" y="24" width="106" height="128" rx="8" fill="#0891b2" stroke="#0f172a" stroke-width="2.5"/>
+                            <rect x="180" y="44" width="82" height="72" rx="6" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+                            <text x="221" y="76" text-anchor="middle" font-size="22">🎀 🎀 🎀</text>
+                            <text x="221" y="102" text-anchor="middle" font-size="22">🎀 🎀 🎀</text>
+                            <text x="221" y="138" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">FİYONK (495)</text>
+
+                            ${S.p135PastaZoom ? `
+                                <rect x="12" y="10" width="316" height="32" rx="10" fill="#ffe4e6" stroke="#e11d48" stroke-width="2"/>
+                                <text x="170" y="31" text-anchor="middle" font-size="12.5" font-weight="900" fill="#be123c">⚠️ Çubuk ve fiyonk makarnalar EŞ NESNELER DEĞİL!</text>
+                            ` : ''}
+                        </svg>
+                        <button class="btn-action pink" onclick="togglePastaZoom()">
+                            ${S.p135PastaZoom ? '✅ Makarna Boyutları İncelendi' : '🔍 Makarnaları Yakından Karşılaştır'}
+                        </button>
+                    </div>
+                    <div class="right-box">
+                        <div class="steps-stack">
+                            <div class="sub-step ${S.p135Dta4Ans ? 'solved' : ''}">
+                                <div class="sub-q">Alper'in düşüncesi doğru mudur? İki kutunun kapasitesini kesin olarak karşılaştırmak için nasıl bir yol izlenmelidir?</div>
+                                <div class="choice-row" style="flex-direction:column;">
+                                    <button class="choice-btn" style="justify-content:flex-start; text-align:left;" onclick="checkDta4(false, this)">A) Alper haklıdır; 594 &gt; 495 olduğu için ilk kutu kesinlikle daha büyüktür.</button>
+                                    <button class="choice-btn ${S.p135Dta4Ans ? 'correct' : ''}" style="justify-content:flex-start; text-align:left;" onclick="checkDta4(true, this)">B) Alper'in çıkarımı hatalıdır; çubuk ve fiyonk makarnalar <b>eş nesneler değildir</b>. Kesin karşılaştırma için iki kutu da <b>aynı eş nesneyle</b> (ör. birim küplerle) doldurulmalıdır.</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="book-info-box" style="${S.p135Dta4Ans ? '' : 'opacity:0.45;'}">
+                            <span class="book-info-tag">⚠️ DİKKAT (Sayfa 135)</span><br>
+                            Kapasite olarak birbirine yakın görünen prizmaların kapasitelerinin doğru bir şekilde karşılaştırılabilmesi için bu prizmaların içlerinin <b>eş nesnelerle</b> doldurulması ve kapasitelerinin belirlenmesi gerekir.
+                        </div>
+                        <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+                    </div>
+                </div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('Harika! Farklı boyut ve şekildeki nesneleri sayarak kapasite karşılaştırılamaz; mutlaka <b>eş nesneler</b> kullanılmalıdır!');
+        }
+
+        function togglePastaZoom() { initAudio(); playSound('pop'); S.p135PastaZoom = true; renderStep(); }
+        function checkDta4(ok, btn) {
+            initAudio(); if (S.p135Dta4Ans) return;
+            if (ok) { S.p135Dta4Ans = true; S.p135PastaZoom = true; completeStep('Harika! Farklı boyut ve şekildeki nesneleri sayarak kapasite karşılaştırılamaz; mutlaka <b>eş nesneler</b> kullanılmalıdır!'); renderStep(); }
+            else { playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380); showToast('✖ Bir çubuk makarna ile bir fiyonk makarnanın kapladığı yer aynı mıdır? Tekrar düşün!', 'err'); }
+        }
+
+        // ==========================================
+        // ADIM 3: SAYFA 135 • DTA 5 (TUĞLA DEPOLARI)
+        // ==========================================
+        function renderS135Dta5(body) {
+            const brickCol = { top: '#b45309', left: '#92400e', right: '#78350f', stroke: '#451a03' };
+            const d1Svg = buildIsoBoxSVG(4, 4, 4, { mode: 'layers_y', filled: S.depo1Layers, unit: 15, viewW: 210, viewH: 170, colors: brickCol, labels: { x: '4', z: '4', y: '4' } });
+            const d2Svg = buildIsoBoxSVG(5, 3, 5, { mode: 'layers_y', filled: S.depo2Layers, unit: 13.5, viewW: 210, viewH: 170, colors: brickCol, labels: { x: '5', z: '5', y: '3' } });
+
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        🧱 <b>Düşün-Tartış-Açıkla 5 (Sayfa 135):</b> Bir inşaat firmasının küp (<b>Depo 1</b>) ve kare prizma (<b>Depo 2</b>) şeklinde iki deposu vardır. Bu depolar küp şeklindeki eş tuğlalarla boşluk kalmayacak şekilde tamamen doldurulacaktır.
+                    </div>
+                </div>
+                <div class="workspace-grid">
+                    <div class="model-box">
+                        <div class="box-header">
+                            <span class="pill-title">🧱 Depoları Tuğla Katlarıyla Doldur</span>
+                            <span class="pill-stat">Depo 1: ${S.depo1Layers * 16} • Depo 2: ${S.depo2Layers * 25}</span>
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%;">
+                            <div style="background:#fff; border:2px solid #fdba74; border-radius:12px; padding:7px; text-align:center;">
+                                <div style="font-weight:900; color:#9a3412;">Depo 1 (Küp: 4×4×4)</div>
+                                ${d1Svg}
+                                <button class="btn-action" style="padding:5px 10px; font-size:12.5px;" onclick="addDepoLayer(1)" ${S.depo1Layers >= 4 ? 'disabled' : ''}>
+                                    ${S.depo1Layers >= 4 ? '✅ Dolu (64 Tuğla)' : `🧱 +1 Kat (${S.depo1Layers}/4)`}
+                                </button>
+                            </div>
+                            <div style="background:#fff; border:2px solid #fdba74; border-radius:12px; padding:7px; text-align:center;">
+                                <div style="font-weight:900; color:#9a3412;">Depo 2 (Kare Pr.: 5×5×3)</div>
+                                ${d2Svg}
+                                <button class="btn-action" style="padding:5px 10px; font-size:12.5px;" onclick="addDepoLayer(2)" ${S.depo2Layers >= 3 ? 'disabled' : ''}>
+                                    ${S.depo2Layers >= 3 ? '✅ Dolu (75 Tuğla)' : `🧱 +1 Kat (${S.depo2Layers}/3)`}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-box">
+                        <div class="steps-stack">
+                            <div class="sub-step ${S.p135Dta5Q1 ? 'solved' : ''}">
+                                <div class="sub-q"><b>1)</b> Depolara yerleştirilecek tuğla sayıları ve kapasitesi daha fazla olan depo hangisidir?</div>
+                                <div class="choice-row" style="flex-direction:column;">
+                                    <button class="choice-btn" onclick="checkDta5(1, false, this)">Depo 1 = 48 tuğla, Depo 2 = 60 tuğla → Depo 2</button>
+                                    <button class="choice-btn ${S.p135Dta5Q1 ? 'correct' : ''}" onclick="checkDta5(1, true, this)"><b>Depo 1 = 64 tuğla (4×4×4), Depo 2 = 75 tuğla (5×5×3) → Depo 2 daha fazla</b></button>
+                                </div>
+                            </div>
+                            <div class="sub-step ${!S.p135Dta5Q1 ? 'locked' : ''} ${S.p135Dta5Q2 ? 'solved' : ''}">
+                                <div class="sub-q"><b>2)</b> Depoların kapasitesi ile tuğla sayısı doğru orantılıdır. Kullanılan eş nesnelerin sayısını matematikte hangi kavram ile ifade ederiz?</div>
+                                <div class="choice-row">
+                                    <button class="choice-btn" onclick="checkDta5(2, false, this)">Çevre</button>
+                                    <button class="choice-btn" onclick="checkDta5(2, false, this)">Alan</button>
+                                    <button class="choice-btn ${S.p135Dta5Q2 ? 'correct' : ''}" onclick="checkDta5(2, true, this)"><b>Hacim</b></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+                    </div>
+                </div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('Süper! Depo 1 = <b>64 tuğla</b>, Depo 2 = <b>75 tuğla</b> alır. Daha çok eş tuğla alan <b>Depo 2</b>\'nin kapasitesi (<b>hacmi</b>) daha büyüktür!');
+        }
+
+        function addDepoLayer(d) {
+            initAudio(); playSound('pop'); launchConfetti('mini');
+            if (d === 1 && S.depo1Layers < 4) S.depo1Layers++;
+            if (d === 2 && S.depo2Layers < 3) S.depo2Layers++;
+            renderStep();
+        }
+        function checkDta5(q, ok, btn) {
+            initAudio();
+            if ((q === 1 && S.p135Dta5Q1) || (q === 2 && S.p135Dta5Q2)) return;
+            if (ok) {
+                if (q === 1) { S.p135Dta5Q1 = true; S.depo1Layers = 4; S.depo2Layers = 3; score += 25; playSound('correct'); launchConfetti('mini'); }
+                else { S.p135Dta5Q2 = true; completeStep('Süper! Depo 1 = <b>64 tuğla</b>, Depo 2 = <b>75 tuğla</b> alır. Bir yapıyı boşluksuz dolduran eş nesnelerin sayısı <b>hacim</b> kavramını ifade eder!'); }
+                renderStep();
+            } else {
+                playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380);
+                showToast('✖ Tabandaki tuğla sayısı ile kat sayısını çarpalım!', 'err');
+            }
+        }
+
+        // ==========================================
+        // ADIM 4: SAYFA 136 • DTA 6 (ALİ VE FİLİZ DENGE KULELERİ)
+        // ==========================================
+        function buildJengaTowerSVG(perLayer, layers, maxLayers, label) {
+            let svg = `<svg viewBox="0 0 180 200" style="width:100%; max-width:175px; height:auto; display:block;" xmlns="http://www.w3.org/2000/svg">`;
+            const baseY = 178;
+            const lh = 11.5;
+            for (let i = 0; i < layers; i++) {
+                const y = baseY - (i + 1) * lh;
+                const alt = i % 2 === 0;
+                const w = perLayer === 4 ? 76 : 68;
+                const x = (180 - w) / 2;
+                // Ön yüz
+                svg += `<rect x="${x}" y="${y}" width="${w}" height="${lh}" fill="${alt ? '#e5b877' : '#d6a156'}" stroke="#78350f" stroke-width="1"/>`;
+                // Parça bölümleri (ön yüz)
+                if (alt) {
+                    for (let k = 1; k < perLayer; k++) {
+                        const dx = x + (w / perLayer) * k;
+                        svg += `<line x1="${dx}" y1="${y}" x2="${dx}" y2="${y + lh}" stroke="#78350f" stroke-width="1"/>`;
+                    }
+                }
+                // Sağ yan 3D perspektif yüzü
+                svg += `<polygon points="${x + w},${y} ${x + w + 18},${y - 8} ${x + w + 18},${y + lh - 8} ${x + w},${y + lh}" fill="${alt ? '#b9833a' : '#c99347'}" stroke="#78350f" stroke-width="1"/>`;
+                if (i === layers - 1) {
+                    // Üst kapak
+                    svg += `<polygon points="${x},${y} ${x + 18},${y - 8} ${x + w + 18},${y - 8} ${x + w},${y}" fill="#f3d19c" stroke="#78350f" stroke-width="1"/>`;
+                }
+            }
+            svg += `<text x="90" y="195" text-anchor="middle" font-size="12" font-weight="900" fill="#78350f">${label}: ${layers}×${perLayer} = ${layers * perLayer} parça</text>`;
+            svg += `</svg>`;
+            return svg;
+        }
+
+        function renderS136Dta6(body) {
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        🪵 <b>Düşün-Tartış-Açıkla 6 (Sayfa 136):</b> Ali ve Filiz'in ahşap denge oyunlarındaki tüm parçalar <b>3 cm × 4 cm × 12 cm</b> boyutunda eş parçalardır. <b>Ali</b> her katta <b>4 parça</b> ile <b>10 kat</b>, <b>Filiz</b> her katta <b>3 parça</b> ile <b>13 kat</b> kule oluşturmuştur.
+                    </div>
+                </div>
+                <div class="workspace-grid">
+                    <div class="model-box">
+                        <div class="box-header">
+                            <span class="pill-title">🪵 Denge Kulelerini Kat Kat Diz!</span>
+                            <span class="pill-stat">Ali: ${S.aliLayers * 4} • Filiz: ${S.filizLayers * 3}</span>
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%;">
+                            <div style="background:#fff; border:2px solid #fcd34d; border-radius:12px; padding:7px; text-align:center;">
+                                <div style="font-weight:900; color:#92400e;">Şekil 2 • Ali (4×10)</div>
+                                ${buildJengaTowerSVG(4, S.aliLayers, 10, 'Ali')}
+                                <div style="display:flex; gap:4px; justify-content:center; margin-top:4px;">
+                                    <button class="btn-action" style="padding:5px 9px; font-size:12px;" onclick="stackJenga('ali', 1)" ${S.aliLayers >= 10 ? 'disabled' : ''}>+1 Kat</button>
+                                    <button class="btn-action green" style="padding:5px 9px; font-size:12px;" onclick="stackJenga('ali', 10)" ${S.aliLayers >= 10 ? 'disabled' : ''}>Tamamla</button>
+                                </div>
+                            </div>
+                            <div style="background:#fff; border:2px solid #fcd34d; border-radius:12px; padding:7px; text-align:center;">
+                                <div style="font-weight:900; color:#92400e;">Şekil 3 • Filiz (3×13)</div>
+                                ${buildJengaTowerSVG(3, S.filizLayers, 13, 'Filiz')}
+                                <div style="display:flex; gap:4px; justify-content:center; margin-top:4px;">
+                                    <button class="btn-action" style="padding:5px 9px; font-size:12px;" onclick="stackJenga('filiz', 1)" ${S.filizLayers >= 13 ? 'disabled' : ''}>+1 Kat</button>
+                                    <button class="btn-action green" style="padding:5px 9px; font-size:12px;" onclick="stackJenga('filiz', 13)" ${S.filizLayers >= 13 ? 'disabled' : ''}>Tamamla</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-box">
+                        <div class="steps-stack">
+                            <div class="sub-step ${S.p136Q ? 'solved' : ''}">
+                                <div class="sub-q">Kutuların kapasiteleri ile toplam parça sayıları arasında nasıl bir ilişki vardır ve <b>kapasitesi daha fazla olan kutu</b> hangisidir?</div>
+                                <div class="choice-row" style="flex-direction:column;">
+                                    <button class="choice-btn ${S.p136Q ? 'correct' : ''}" onclick="checkDta6(true, this)"><b>Ali'nin kutusu (40 parça &gt; 39 parça)</b> — Eş parça sayısı arttıkça kutunun kapasitesi (hacmi) artar.</button>
+                                    <button class="choice-btn" onclick="checkDta6(false, this)">Filiz'in kutusu (13 kat daha yüksek olduğu için)</button>
+                                    <button class="choice-btn" onclick="checkDta6(false, this)">İki kutunun kapasiteleri eşittir.</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="book-info-box">
+                            <span class="book-info-tag">🍉 Sınıftan Hayata &amp; Bilgi Kutusu (S.136)</span><br>
+                            • Japonya'da karpuzlar nakliyede boşluk bırakmaması için kare prizma şeklinde yetiştirilir!<br>
+                            • Bir cismin uzayda kapladığı yere o cismin <b>hacmi</b> denir.
+                        </div>
+                        <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+                    </div>
+                </div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('Harika! Filiz\'in kulesi daha yüksek görünse de Ali\'nin kutusunda <b>4 × 10 = 40</b>, Filiz\'in kutusunda <b>3 × 13 = 39</b> eş parça vardır. Bu yüzden <b>Ali\'nin kutusunun kapasitesi</b> daha fazladır!');
+        }
+
+        function stackJenga(who, add) {
+            initAudio(); playSound('pop'); launchConfetti('mini');
+            if (who === 'ali') S.aliLayers = Math.min(10, S.aliLayers + add);
+            else S.filizLayers = Math.min(13, S.filizLayers + add);
+            renderStep();
+        }
+        function checkDta6(ok, btn) {
+            initAudio(); if (S.p136Q) return;
+            if (ok) {
+                S.p136Q = true; S.aliLayers = 10; S.filizLayers = 13;
+                completeStep('Harika! Ali\'nin kutusu <b>40 parça</b>, Filiz\'in kutusu <b>39 parça</b> aldığı için Ali\'nin kutusunun hacmi daha büyüktür!');
+                renderStep();
+            } else {
+                playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380);
+                showToast('✖ Sadece yüksekliğe değil, toplam eş parça sayısına (4×10 ve 3×13) bakalım!', 'err');
+            }
+        }
+
+        // ==========================================
+        // ADIM 5: SAYFA 137 • NELER ÖĞRENDİK SORU 1 (a, b, c, ç)
+        // ==========================================
+        const Q1_DATA = [
+            { key: 'a', nx: 6, ny: 3, nz: 2, ans: 36, opts: [24, 36, 48], col: { top: '#38bdf8', left: '#0ea5e9', right: '#0284c7', stroke: '#0f172a' }, title: 'a) Mavi Prizma (6×2×3)' },
+            { key: 'b', nx: 4, ny: 2, nz: 4, ans: 32, opts: [16, 24, 32], col: { top: '#fdba74', left: '#fb923c', right: '#ea580c', stroke: '#0f172a' }, title: 'b) Turuncu Prizma (4×4×2)' },
+            { key: 'c', nx: 4, ny: 5, nz: 4, ans: 80, opts: [64, 80, 96], col: { top: '#bef264', left: '#a3e635', right: '#65a30d', stroke: '#0f172a' }, title: 'c) Yeşil Prizma (4×4×5)' },
+            { key: 'ç', nx: 3, ny: 4, nz: 3, ans: 36, opts: [27, 36, 45], col: { top: '#f9a8d4', left: '#f472b6', right: '#db2777', stroke: '#0f172a' }, title: 'ç) Pembe Prizma (3×3×4)' }
+        ];
+
+        function renderS137Q1(body) {
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        🧊 <b>Neler Öğrendik? • Soru 1 (Sayfa 137):</b> Aşağıdaki dikdörtgenler prizmalarının hacimlerini birim küpler yardımıyla hesaplayınız. İstersen <b>Katları Doldur</b> butonuna tıklayıp canlı say!
+                    </div>
+                </div>
+                <div class="quad-grid">
+                    ${Q1_DATA.map((d, i) => `
+                        <div class="mini-prism-card ${S.q1Done[i] ? 'solved' : ''}">
+                            <div class="box-header">
+                                <span style="font-weight:900; color:#1e3a5f;">${d.title}</span>
+                                <button class="btn-action teal" style="padding:4px 10px; font-size:12px;" onclick="fillQ1(${i})" ${S.q1Fill[i] >= d.ny ? 'disabled' : ''}>
+                                    ${S.q1Fill[i] >= d.ny ? '✅ Dolu' : `🧱 +1 Kat (${S.q1Fill[i]}/${d.ny})`}
+                                </button>
+                            </div>
+                            ${buildIsoBoxSVG(d.nx, d.ny, d.nz, { mode: 'skeleton_plus_col', filled: S.q1Fill[i], unit: 13.5, viewW: 230, viewH: 145, colors: d.col })}
+                            <div class="choice-row">
+                                ${d.opts.map(v => `
+                                    <button class="choice-btn ${S.q1Done[i] && v === d.ans ? 'correct' : ''}" style="padding:6px 8px; font-size:14.5px;" onclick="checkS137Q1(${i}, ${v}, this)">${v} br³</button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('Harika! a) <b>36 br³</b>, b) <b>32 br³</b>, c) <b>80 br³</b>, ç) <b>36 br³</b> sonuçlarının tamamını doğru buldun!');
+        }
+
+        function fillQ1(i) {
+            initAudio(); playSound('pop'); launchConfetti('mini');
+            S.q1Fill[i] = Math.min(Q1_DATA[i].ny, S.q1Fill[i] + 1);
+            renderStep();
+        }
+        function checkS137Q1(i, val, btn) {
+            initAudio(); if (S.q1Done[i]) return;
+            if (val === Q1_DATA[i].ans) {
+                S.q1Done[i] = true;
+                S.q1Fill[i] = Q1_DATA[i].ny;
+                score += 15;
+                if (S.q1Done.every(Boolean)) {
+                    completeStep('Harika! a) <b>36 br³</b>, b) <b>32 br³</b>, c) <b>80 br³</b>, ç) <b>36 br³</b> sonuçlarının tamamını doğru buldun!');
+                } else {
+                    playSound('correct'); launchConfetti('mini');
+                }
+                renderStep();
+            } else {
+                playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380);
+                showToast('✖ Tabandaki küp sayısı × kat sayısını tekrar hesaplayalım!', 'err');
+            }
+        }
+
+        // ==========================================
+        // ADIM 6: SAYFA 137 • SORU 2 (2 br'lik 10 EŞ KÜP)
+        // ==========================================
+        function renderS137Q2(body) {
+            const isArr1 = S.q2View === 0;
+            const svg = isArr1
+                ? buildIsoBoxSVG(10, 1, 1, { unit: 12, viewW: 290, viewH: 145, colors: { top: '#a78bfa', left: '#8b5cf6', right: '#7c3aed', stroke: '#1e1b4b' }, labels: { x: '20 br (10 küp)', z: '2 br', y: '2 br' } })
+                : buildIsoBoxSVG(5, 1, 2, { unit: 17, viewW: 290, viewH: 145, colors: { top: '#34d399', left: '#10b981', right: '#059669', stroke: '#064e3b' }, labels: { x: '10 br (5 küp)', z: '4 br (2 küp)', y: '2 br' } });
+
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        🎲 <b>Neler Öğrendik? • Soru 2 (Sayfa 137):</b> Ayrıt uzunlukları doğal sayı olan bir dikdörtgenler prizmasının içine <b>ayrıt uzunluğu 2 birim olan eş küplerden 10 adet</b> boşluksuz yerleştirilmiştir. Prizmanın hacmini ve olası tüm ayrıt uzunluklarını bulunuz.
+                    </div>
+                </div>
+                <div class="workspace-grid">
+                    <div class="model-box">
+                        <div class="box-header">
+                            <span class="pill-title">🧊 10 Adet 2 br'lik Küp Dizilimleri</span>
+                            <span class="pill-stat">1 Küp = 2×2×2 = 8 br³</span>
+                        </div>
+                        ${svg}
+                        <div class="controls-row">
+                            <button class="btn-action ${isArr1 ? 'pink' : 'gray'}" onclick="setQ2View(0)">1. Dizilim: 1×1×10 Küp (2×2×20 br)</button>
+                            <button class="btn-action ${!isArr1 ? 'green' : 'gray'}" onclick="setQ2View(1)">2. Dizilim: 1×2×5 Küp (2×4×10 br)</button>
+                        </div>
+                    </div>
+                    <div class="right-box">
+                        <div class="steps-stack">
+                            <div class="sub-step ${S.q2VolDone ? 'solved' : ''}">
+                                <div class="sub-q">1) 1 küpün hacmi <b>2×2×2 = 8 br³</b> olduğuna göre 10 küplük prizmanın hacmi kaç br³'tür?</div>
+                                <div class="choice-row">
+                                    <button class="choice-btn" onclick="checkS137Q2(1, false, this)">20 br³</button>
+                                    <button class="choice-btn" onclick="checkS137Q2(1, false, this)">40 br³</button>
+                                    <button class="choice-btn ${S.q2VolDone ? 'correct' : ''}" onclick="checkS137Q2(1, true, this)"><b>80 br³</b></button>
+                                </div>
+                            </div>
+                            <div class="sub-step ${!S.q2VolDone ? 'locked' : ''} ${S.q2EdgeDone ? 'solved' : ''}">
+                                <div class="sub-q">2) Prizmanın olası tüm ayrıt uzunlukları hangileridir?</div>
+                                <div class="choice-row" style="flex-direction:column;">
+                                    <button class="choice-btn ${S.q2EdgeDone ? 'correct' : ''}" onclick="checkS137Q2(2, true, this)"><b>(2 br, 2 br, 20 br)</b> ve <b>(2 br, 4 br, 10 br)</b></button>
+                                    <button class="choice-btn" onclick="checkS137Q2(2, false, this)">(1 br, 1 br, 10 br) ve (1 br, 2 br, 5 br)</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+                    </div>
+                </div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('Mükemmel! 1 küp = <b>8 br³</b> → 10 küp = <b>80 br³</b>! Her küpün ayrıtı 2 br olduğu için olası ayrıtlar <b>2×2×20 br</b> ve <b>2×4×10 br</b>\'dir.');
+        }
+
+        function setQ2View(v) { initAudio(); playSound('tick'); S.q2View = v; renderStep(); }
+        function checkS137Q2(q, ok, btn) {
+            initAudio();
+            if ((q === 1 && S.q2VolDone) || (q === 2 && S.q2EdgeDone)) return;
+            if (ok) {
+                if (q === 1) { S.q2VolDone = true; score += 20; playSound('correct'); launchConfetti('mini'); }
+                else { S.q2EdgeDone = true; completeStep('Mükemmel! 1 küp = <b>8 br³</b> → 10 küp = <b>80 br³</b>! Olası ayrıtlar <b>2×2×20 br</b> ve <b>2×4×10 br</b>\'dir.'); }
+                renderStep();
+            } else {
+                playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380);
+                showToast('✖ Her küpün ayrıtının 2 birim olduğunu (1 küp = 8 br³) unutmayalım!', 'err');
+            }
+        }
+
+        // ==========================================
+        // ADIM 7: SAYFA 137 • SORU 3 (ECZANE İLAÇ RAFI)
+        // ==========================================
+        function renderS137Q3(body) {
+            const medCol = { top: '#fef2f2', left: '#ffffff', right: '#e2e8f0', stroke: '#dc2626' };
+            const shelfSvg = buildIsoBoxSVG(6, 3, 2, {
+                mode: 'layers_y', filled: S.q3Fill, unit: 17, viewW: 290, viewH: 175,
+                colors: medCol, labels: { x: '6 kutu', z: '2 kutu', y: '3 kat' }
+            });
+
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        💊 <b>Neler Öğrendik? • Soru 3 (Sayfa 137):</b> Bir eczane, Şekil 1'deki ilaç kutularını dikdörtgenler prizması biçimindeki rafa Şekil 2'deki gibi (<b>6 kutu eninde, 2 kutu derinliğinde, 3 kat yüksekliğinde</b>) boşluksuz yerleştirmiştir.
+                    </div>
+                </div>
+                <div class="workspace-grid">
+                    <div class="model-box">
+                        <div class="box-header">
+                            <span class="pill-title">💊 Eczane İlaç Rafı (Şekil 2)</span>
+                            <span class="pill-stat">Yerleşen: ${S.q3Fill * 12} / 36 Kutu</span>
+                        </div>
+                        ${shelfSvg}
+                        <div class="controls-row">
+                            <button class="btn-action pink" onclick="fillMedShelf()" ${S.q3Fill >= 3 ? 'disabled' : ''}>
+                                ${S.q3Fill >= 3 ? '✅ Raf Tam Dolu (36 İlaç Kutusu)' : `💊 +1 Kat İlaç Diz (${S.q3Fill}/3)`}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="right-box">
+                        <div class="steps-stack">
+                            <div class="sub-step ${S.q3aDone ? 'solved' : ''}">
+                                <div class="sub-q"><b>a)</b> Şekil 2'deki rafın kapasitesi en fazla kaç ilaç kutusudur?</div>
+                                <div class="choice-row">
+                                    <button class="choice-btn" onclick="checkS137Q3(1, false, this)">18 kutu</button>
+                                    <button class="choice-btn ${S.q3aDone ? 'correct' : ''}" onclick="checkS137Q3(1, true, this)"><b>36 kutu</b> (6×2×3)</button>
+                                    <button class="choice-btn" onclick="checkS137Q3(1, false, this)">48 kutu</button>
+                                </div>
+                            </div>
+                            <div class="sub-step ${!S.q3aDone ? 'locked' : ''} ${S.q3bDone ? 'solved' : ''}">
+                                <div class="sub-q"><b>b)</b> Bir ilaç kutusunun ayrıtları <b>3 cm × 3 cm × 5 cm</b> (dik konumda) olduğuna göre rafın ayrıt uzunlukları kaç cm olur?</div>
+                                <div class="choice-row" style="flex-direction:column;">
+                                    <button class="choice-btn ${S.q3bDone ? 'correct' : ''}" onclick="checkS137Q3(2, true, this)"><b>18 cm × 6 cm × 15 cm</b> (6×3, 2×3, 3×5)</button>
+                                    <button class="choice-btn" onclick="checkS137Q3(2, false, this)">12 cm × 6 cm × 10 cm</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+                    </div>
+                </div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('Harika! Raf <b>6 × 2 × 3 = 36 ilaç kutusu</b> alır. Kutular 3×3×5 cm olduğuna göre rafın ayrıtları <b>18 cm, 6 cm ve 15 cm</b> olur!');
+        }
+
+        function fillMedShelf() { initAudio(); playSound('pop'); launchConfetti('mini'); if (S.q3Fill < 3) S.q3Fill++; renderStep(); }
+        function checkS137Q3(q, ok, btn) {
+            initAudio();
+            if ((q === 1 && S.q3aDone) || (q === 2 && S.q3bDone)) return;
+            if (ok) {
+                if (q === 1) { S.q3aDone = true; S.q3Fill = 3; score += 20; playSound('correct'); launchConfetti('mini'); }
+                else { S.q3bDone = true; completeStep('Harika! Raf <b>36 ilaç kutusu</b> alır ve ayrıt uzunlukları <b>18 cm × 6 cm × 15 cm</b>\'dir!'); }
+                renderStep();
+            } else {
+                playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380);
+                showToast('✖ Her ayrıt boyunca dizilen kutu sayısını ilgili cm değeriyle çarpalım!', 'err');
+            }
+        }
+
+        // ==========================================
+        // ADIM 8: SAYFA 138 • DTA 7 (CAM KAP & BİRİM KÜP)
+        // ==========================================
+        function renderS138Dta7(body) {
+            let capSvg = '';
+            if (S.camView === 1) {
+                capSvg = buildIsoBoxSVG(5, 3, 3, { mode: 'layers_y', filled: 0, unit: 17, viewW: 280, viewH: 165 });
+            } else if (S.camView === 2) {
+                // Görsel 2: Kenarlarda boşluk bırakan dikdörtgen kutular
+                capSvg = `<svg viewBox="0 0 280 165" style="width:100%;max-width:280px;height:auto;">
+                    <rect x="34" y="20" width="212" height="128" rx="6" fill="rgba(224,242,254,0.45)" stroke="#334155" stroke-width="2.5"/>
+                    <rect x="58" y="34" width="164" height="110" fill="#c2854c" stroke="#78350f" stroke-width="2"/>
+                    <line x1="58" y1="70" x2="222" y2="70" stroke="#78350f" stroke-width="1.5"/>
+                    <line x1="58" y1="107" x2="222" y2="107" stroke="#78350f" stroke-width="1.5"/>
+                    <line x1="112" y1="34" x2="112" y2="144" stroke="#78350f" stroke-width="1.5"/>
+                    <line x1="168" y1="34" x2="168" y2="144" stroke="#78350f" stroke-width="1.5"/>
+                    <text x="46" y="88" text-anchor="middle" font-size="11" font-weight="900" fill="#dc2626">Boş</text>
+                    <text x="234" y="88" text-anchor="middle" font-size="11" font-weight="900" fill="#dc2626">Boş</text>
+                </svg>`;
+            } else {
+                capSvg = buildIsoBoxSVG(5, 3, 3, { mode: 'full', unit: 17, viewW: 280, viewH: 165, colors: { top: '#fde047', left: '#fb7185', right: '#38bdf8', stroke: '#1e293b' } });
+            }
+
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        🧊 <b>Düşün-Tartış-Açıkla 7 (Sayfa 138):</b> Dikdörtgenler prizması şeklindeki cam kap (<b>Görsel 1</b>), kenarlarda boşluk bırakılarak dikdörtgen kutularla (<b>Görsel 2</b>) ve hiç boşluk bırakılmadan eş küplerle (<b>Görsel 3</b>) doldurulmuştur.
+                    </div>
+                </div>
+                <div class="workspace-grid">
+                    <div class="model-box">
+                        <div class="box-header">
+                            <span class="pill-title">🔎 Cam Kap Modellerini İncele</span>
+                            <span class="pill-stat">Görsel ${S.camView}</span>
+                        </div>
+                        ${capSvg}
+                        <div class="controls-row">
+                            <button class="btn-action ${S.camView === 1 ? 'teal' : 'gray'}" onclick="setCamView(1)">Görsel 1 (Boş)</button>
+                            <button class="btn-action ${S.camView === 2 ? 'pink' : 'gray'}" onclick="setCamView(2)">Görsel 2 (Boşluklu)</button>
+                            <button class="btn-action ${S.camView === 3 ? 'green' : 'gray'}" onclick="setCamView(3)">Görsel 3 (Eş Küpler)</button>
+                        </div>
+                    </div>
+                    <div class="right-box">
+                        <div class="steps-stack">
+                            <div class="sub-step ${S.dta7a ? 'solved' : ''}">
+                                <div class="sub-q"><b>a)</b> Farklı nesneler kullanıldığında farklı sonuçlara ulaşılmasının sebebi nedir?</div>
+                                <div class="choice-row">
+                                    <button class="choice-btn ${S.dta7a ? 'correct' : ''}" onclick="checkDta7(1, true, this)">Kullanılan nesnelerin büyüklüklerinin farklı olması ve aralarında boşluk kalması.</button>
+                                    <button class="choice-btn" onclick="checkDta7(1, false, this)">Cam kabın hacminin sürekli değişmesi.</button>
+                                </div>
+                            </div>
+                            <div class="sub-step ${!S.dta7a ? 'locked' : ''} ${S.dta7b ? 'solved' : ''}">
+                                <div class="sub-q"><b>b)</b> Cam kabın hacmini tam ölçmek için hangi nesne daha uygun birimdir?</div>
+                                <div class="choice-row">
+                                    <button class="choice-btn" onclick="checkDta7(2, false, this)">Görsel 2 (Boşluk bırakan kutular)</button>
+                                    <button class="choice-btn ${S.dta7b ? 'correct' : ''}" onclick="checkDta7(2, true, this)"><b>Görsel 3 (Boşluk bırakmayan eş küpler / birim küpler)</b></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="book-info-box">
+                            <span class="book-info-tag">📘 BİLGİ KUTUSU (Sayfa 138)</span><br>
+                            • Ayrıt uzunluklarının her biri 1 birim olan küplere <b>birim küp</b> denir.<br>
+                            • Bir prizmanın içini boşluk kalmayacak şekilde dolduran birim küplerin sayısına <b>birim küp cinsinden hacmi</b> denir.
+                        </div>
+                        <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+                    </div>
+                </div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('Harika! Bir prizmanın hacmini en doğru şekilde, hiç boşluk bırakmayan <b>birim küplerle</b> ölçeriz!');
+        }
+
+        function setCamView(v) { initAudio(); playSound('tick'); S.camView = v; renderStep(); }
+        function checkDta7(q, ok, btn) {
+            initAudio();
+            if ((q === 1 && S.dta7a) || (q === 2 && S.dta7b)) return;
+            if (ok) {
+                if (q === 1) { S.dta7a = true; score += 20; playSound('correct'); launchConfetti('mini'); }
+                else { S.dta7b = true; S.camView = 3; completeStep('Harika! Bir prizmanın hacmini en doğru şekilde, hiç boşluk bırakmayan <b>birim küplerle</b> ölçeriz!'); }
+                renderStep();
+            } else {
+                playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380);
+                showToast('✖ Görsel 2 ve Görsel 3 arasındaki boşluk farkına dikkat edelim!', 'err');
+            }
+        }
+
+        // ==========================================
+        // ADIM 9: SAYFA 138 • UYGULAYALIM 2 (a & b)
+        // ==========================================
+        function renderS138Uyg2(body) {
+            const svgA = buildIsoBoxSVG(6, 5, 4, { mode: 'layers_y', filled: S.uyg2aLayer, unit: 12.5, viewW: 250, viewH: 165, colors: { top: '#f472b6', left: '#ec4899', right: '#db2777', stroke: '#0f172a' }, labels: { x: '6 br', z: '4 br', y: '5 br' } });
+            const svgB = buildIsoBoxSVG(10, 5, 8, { mode: 'layers_y', filled: S.uyg2bLayer, unit: 8.2, viewW: 260, viewH: 165, colors: { top: '#38bdf8', left: '#0ea5e9', right: '#0284c7', stroke: '#0f172a' }, labels: { x: '10 br', z: '8 br', y: '5 br' } });
+
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        ✏️ <b>Uygulayalım 2 (Sayfa 138):</b> Ayrıt uzunlukları verilen prizmalar boşluk kalmayacak şekilde birim küplerle doldurulduğunda hacimlerinin kaç birimküp olacağını bulunuz.
+                    </div>
+                </div>
+                <div class="workspace-grid">
+                    <div class="mini-prism-card ${S.uyg2aDone ? 'solved' : ''}">
+                        <div class="box-header">
+                            <span class="pill-title" style="background:#ec4899;">a) 6 br × 4 br × 5 br</span>
+                            <button class="btn-action" style="padding:5px 10px; font-size:12.5px;" onclick="fillUyg2('a')" ${S.uyg2aLayer >= 5 ? 'disabled' : ''}>
+                                ${S.uyg2aLayer >= 5 ? '✅ 5/5 Kat Dolu' : `🧱 +1 Kat (${S.uyg2aLayer}/5)`}
+                            </button>
+                        </div>
+                        ${svgA}
+                        <div style="font-size:13.5px; font-weight:800; color:#475569;">1 Kat = 6×4 = 24 br³ • Dolu: <b>${S.uyg2aLayer * 24} br³</b></div>
+                        <div class="choice-row">
+                            ${[96, 120, 144].map(v => `<button class="choice-btn ${S.uyg2aDone && v === 120 ? 'correct' : ''}" onclick="checkUyg2('a', ${v === 120}, this)">${v} br³</button>`).join('')}
+                        </div>
+                    </div>
+
+                    <div class="mini-prism-card ${S.uyg2bDone ? 'solved' : ''}">
+                        <div class="box-header">
+                            <span class="pill-title">b) 10 br × 8 br × 5 br</span>
+                            <button class="btn-action" style="padding:5px 10px; font-size:12.5px;" onclick="fillUyg2('b')" ${S.uyg2bLayer >= 5 ? 'disabled' : ''}>
+                                ${S.uyg2bLayer >= 5 ? '✅ 5/5 Kat Dolu' : `🧱 +1 Kat (${S.uyg2bLayer}/5)`}
+                            </button>
+                        </div>
+                        ${svgB}
+                        <div style="font-size:13.5px; font-weight:800; color:#475569;">1 Kat = 10×8 = 80 br³ • Dolu: <b>${S.uyg2bLayer * 80} br³</b></div>
+                        <div class="choice-row">
+                            ${[320, 400, 480].map(v => `<button class="choice-btn ${S.uyg2bDone && v === 400 ? 'correct' : ''}" onclick="checkUyg2('b', ${v === 400}, this)">${v} br³</button>`).join('')}
+                        </div>
+                    </div>
+                </div>
+                <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('Süper! a) <b>6 × 4 × 5 = 120 br³</b>, b) <b>10 × 8 × 5 = 400 br³</b>!');
+        }
+
+        function fillUyg2(k) {
+            initAudio(); playSound('pop'); launchConfetti('mini');
+            if (k === 'a' && S.uyg2aLayer < 5) S.uyg2aLayer++;
+            if (k === 'b' && S.uyg2bLayer < 5) S.uyg2bLayer++;
+            renderStep();
+        }
+        function checkUyg2(k, ok, btn) {
+            initAudio();
+            if ((k === 'a' && S.uyg2aDone) || (k === 'b' && S.uyg2bDone)) return;
+            if (ok) {
+                if (k === 'a') { S.uyg2aDone = true; S.uyg2aLayer = 5; } else { S.uyg2bDone = true; S.uyg2bLayer = 5; }
+                score += 25;
+                if (S.uyg2aDone && S.uyg2bDone) completeStep('Süper! a) <b>6 × 4 × 5 = 120 br³</b>, b) <b>10 × 8 × 5 = 400 br³</b>!');
+                else { playSound('correct'); launchConfetti('mini'); }
+                renderStep();
+            } else {
+                playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380);
+                showToast('✖ Tabandaki küp sayısı ile yüksekliği (kat sayısını) çarpalım!', 'err');
+            }
+        }
+
+        // ==========================================
+        // ADIM 10: SAYFA 139 • DTA 8 (AHMET, CEREN, MEHMET)
+        // ==========================================
+        function renderS139Dta8(body) {
+            const mInfo = {
+                ahmet: { mode: 'layers_y', max: 3, per: 10, name: '1. Yöntem (Ahmet • Taban 5×2 = 10 küp, 3 kat)' },
+                ceren: { mode: 'layers_x', max: 5, per: 6, name: '2. Yöntem (Ceren • Yan 2×3 = 6 küp, 5 katman)' },
+                mehmet: { mode: 'layers_z', max: 2, per: 15, name: '3. Yöntem (Mehmet • Ön 5×3 = 15 küp, 2 katman)' }
+            }[S.dta8Method];
+
+            const svg = buildIsoBoxSVG(5, 3, 2, {
+                mode: mInfo.mode, filled: S.dta8Fill, unit: 20, viewW: 290, viewH: 165,
+                colors: { top: '#bef264', left: '#38bdf8', right: '#fb923c', stroke: '#0f172a' },
+                labels: { x: '5 br', z: '2 br', y: '3 br' }
+            });
+
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        🧩 <b>Düşün-Tartış-Açıkla 8 (Sayfa 139):</b> Ahmet, Ceren ve Mehmet, <b>5 br × 2 br × 3 br</b> boyutlarındaki Şekil 1 prizmasını farklı yönlerden katmanlara ayırarak dolduruyorlar. Yöntemleri canlı değiştirip soruları cevapla!
+                    </div>
+                </div>
+                <div class="workspace-grid">
+                    <div class="model-box">
+                        <div class="controls-row">
+                            <button class="btn-action ${S.dta8Method === 'ahmet' ? 'teal' : 'gray'}" style="padding:6px 10px; font-size:12.5px;" onclick="setDta8Method('ahmet')">1. Ahmet</button>
+                            <button class="btn-action ${S.dta8Method === 'ceren' ? 'pink' : 'gray'}" style="padding:6px 10px; font-size:12.5px;" onclick="setDta8Method('ceren')">2. Ceren</button>
+                            <button class="btn-action ${S.dta8Method === 'mehmet' ? 'green' : 'gray'}" style="padding:6px 10px; font-size:12.5px;" onclick="setDta8Method('mehmet')">3. Mehmet</button>
+                        </div>
+                        <div style="font-size:13px; font-weight:900; color:#007c91; text-align:center;">${mInfo.name}</div>
+                        ${svg}
+                        <button class="btn-action" onclick="stepDta8Fill()" ${S.dta8Fill >= mInfo.max ? 'disabled' : ''}>
+                            ${S.dta8Fill >= mInfo.max ? `✅ Tamamlandı (${S.dta8Fill * mInfo.per} Küp)` : `🧱 +1 Katman Ekle (${S.dta8Fill}/${mInfo.max} = ${S.dta8Fill * mInfo.per} Küp)`}
+                        </button>
+                        <table class="book-table">
+                            <tr><th>Yöntem</th><th>1. Katman</th><th>Katman Sayısı</th><th>Toplam</th></tr>
+                            <tr><td><b>Ahmet (5×2×3)</b></td><td>10</td><td>3</td><td class="hl-cell">30</td></tr>
+                            <tr><td><b>Ceren (2×3×5)</b></td><td class="${S.dta8Q2 ? 'hl-cell' : ''}">${S.dta8Q2 ? '6' : '?'}</td><td class="${S.dta8Q2 ? 'hl-cell' : ''}">${S.dta8Q2 ? '5' : '?'}</td><td class="${S.dta8Q2 ? 'hl-cell' : ''}">${S.dta8Q2 ? '30' : '?'}</td></tr>
+                            <tr><td><b>Mehmet (5×3×2)</b></td><td class="${S.dta8Q2 ? 'hl-cell' : ''}">${S.dta8Q2 ? '15' : '?'}</td><td class="${S.dta8Q2 ? 'hl-cell' : ''}">${S.dta8Q2 ? '2' : '?'}</td><td class="${S.dta8Q2 ? 'hl-cell' : ''}">${S.dta8Q2 ? '30' : '?'}</td></tr>
+                        </table>
+                    </div>
+
+                    <div class="right-box">
+                        <div class="steps-stack">
+                            <div class="sub-step ${S.dta8Q1 ? 'solved' : ''}">
+                                <div class="sub-q"><b>1)</b> Ahmet tabana dizerek prizmayı doldurduğunda toplam kaç katman olur?</div>
+                                <div class="choice-row">
+                                    <button class="choice-btn" onclick="checkDta8(1, false, this)">2 katman</button>
+                                    <button class="choice-btn ${S.dta8Q1 ? 'correct' : ''}" onclick="checkDta8(1, true, this)"><b>3 katman</b></button>
+                                    <button class="choice-btn" onclick="checkDta8(1, false, this)">5 katman</button>
+                                </div>
+                            </div>
+                            <div class="sub-step ${!S.dta8Q1 ? 'locked' : ''} ${S.dta8Q2 ? 'solved' : ''}">
+                                <div class="sub-q"><b>2)</b> Ceren ve Mehmet için tablo değerleri nedir? Toplam küp sayısı değişir mi?</div>
+                                <div class="choice-row" style="flex-direction:column;">
+                                    <button class="choice-btn ${S.dta8Q2 ? 'correct' : ''}" onclick="checkDta8(2, true, this)"><b>Ceren: 6×5=30, Mehmet: 15×2=30</b> — Yöntem değişse de toplam değişmez!</button>
+                                    <button class="choice-btn" onclick="checkDta8(2, false, this)">Ceren: 6×3=18, Mehmet: 10×2=20 — Yönteme göre değişir.</button>
+                                </div>
+                            </div>
+                            <div class="sub-step ${!S.dta8Q2 ? 'locked' : ''} ${S.dta8Q3 ? 'solved' : ''}">
+                                <div class="sub-q"><b>3 &amp; 4)</b> Birim küpleri saymadan, üç ayrıt uzunluğunu (5, 2, 3) kullanarak hacme nasıl ulaşırız?</div>
+                                <div class="choice-row">
+                                    <button class="choice-btn" onclick="checkDta8(3, false, this)">Ayrıtları toplayarak (5 + 2 + 3)</button>
+                                    <button class="choice-btn ${S.dta8Q3 ? 'correct' : ''}" onclick="checkDta8(3, true, this)"><b>Üç farklı ayrıtı çarparak (5 × 2 × 3 = 30)</b></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+                    </div>
+                </div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('Muhteşem! Ahmet (5×2×3), Ceren (2×3×5) ve Mehmet (5×3×2) farklı yüzeylerden başlasa da hepsi <b>30 br³</b> buldu! Dikdörtgenler prizmasının hacmi <b>3 dik ayrıtın çarpımıdır</b>.');
+        }
+
+        function setDta8Method(m) { initAudio(); playSound('tick'); S.dta8Method = m; S.dta8Fill = 1; renderStep(); }
+        function stepDta8Fill() { initAudio(); playSound('pop'); launchConfetti('mini'); S.dta8Fill++; renderStep(); }
+        function checkDta8(q, ok, btn) {
+            initAudio();
+            if ((q === 1 && S.dta8Q1) || (q === 2 && S.dta8Q2) || (q === 3 && S.dta8Q3)) return;
+            if (ok) {
+                score += 20;
+                if (q === 1) { S.dta8Q1 = true; playSound('correct'); launchConfetti('mini'); }
+                else if (q === 2) { S.dta8Q2 = true; playSound('correct'); launchConfetti('mini'); }
+                else { S.dta8Q3 = true; S.dta8Q4 = true; completeStep('Muhteşem! Üç yöntemde de sonuç <b>30 br³</b> çıktı. Dikdörtgenler prizmasının hacmi <b>Taban Alanı × Yükseklik = a · b · c</b> bağıntısıyla bulunur!'); }
+                renderStep();
+            } else {
+                playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380);
+                showToast('✖ Soldaki 3D katman modellerini değiştirip küp sayılarını tekrar inceleyelim!', 'err');
+            }
+        }
+
+        // ==========================================
+        // ADIM 11: SAYFA 140 • DTA 8 SORU 5 & BİLGİ KUTUSU
+        // ==========================================
+        function renderS140Dta8(body) {
+            const bigSvg = buildIsoBoxSVG(10, 10, 10, {
+                mode: 'full', unit: 7.4, viewW: 250, viewH: 180,
+                colors: { top: '#38bdf8', left: '#0ea5e9', right: '#0284c7', stroke: '#0f172a' },
+                labels: S.s140Highlighted ? { x: '10 br', z: '10 br', y: '10 br' } : null
+            });
+
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        📐 <b>Sayfa 140 • Soru 5:</b> Yandaki büyük dikdörtgenler prizmasındaki (<b>10 × 10 × 10</b>) birim küpleri tek tek saymak oldukça zordur. Ayrıt uzunluklarından faydalanarak hacmi nasıl hesaplarsın?
+                    </div>
+                </div>
+                <div class="workspace-grid">
+                    <div class="model-box">
+                        <div class="box-header">
+                            <span class="pill-title">🧊 Büyük Prizma (Ayrıtları Ölç!)</span>
+                            <span class="pill-stat">${S.s140Highlighted ? '10 × 10 × 10 = 1 000 br³' : 'Sayması çok zor!'}</span>
+                        </div>
+                        ${bigSvg}
+                        <button class="btn-action teal" onclick="highlightS140()">
+                            ${S.s140Highlighted ? '✅ Ayrıt Uzunlukları Gösterildi' : '📏 3 Dik Ayrıtı Ölç ve Göster'}
+                        </button>
+                    </div>
+                    <div class="right-box">
+                        <div class="steps-stack">
+                            <div class="sub-step ${S.s140Q5 ? 'solved' : ''}">
+                                <div class="sub-q"><b>5)</b> Bu büyük prizmanın hacmini birim küpleri saymadan nasıl hesaplarız?</div>
+                                <div class="choice-row" style="flex-direction:column;">
+                                    <button class="choice-btn ${S.s140Q5 ? 'correct' : ''}" onclick="checkS140(1, true, this)"><b>Taban Alanı × Yükseklik</b> → (10 × 10) × 10 = <b>1 000 br³</b></button>
+                                    <button class="choice-btn" onclick="checkS140(1, false, this)">Ön yüzdeki kareleri sayıp 2 ile çarparız (200 br³)</button>
+                                </div>
+                            </div>
+                            <div class="sub-step ${!S.s140Q5 ? 'locked' : ''} ${S.s140NoteQ ? 'solved' : ''}">
+                                <div class="sub-q"><b>Sayfa 140 Alt Düşünme Sorusu:</b> Birim küpler uzunluk ve alan ölçme birimi olmamalarına rağmen ayrıt uzunluğu ve taban alanı hakkında nasıl bilgi verirler?</div>
+                                <div class="choice-row" style="flex-direction:column;">
+                                    <button class="choice-btn ${S.s140NoteQ ? 'correct' : ''}" onclick="checkS140(2, true, this)">Her birim küpün ayrıtı <b>1 br</b>, bir yüzünün alanı <b>1 br²</b> olduğu için dizilen küp sayısı uzunluk ve taban alanını verir!</button>
+                                    <button class="choice-btn" onclick="checkS140(2, false, this)">Birim küpler sadece ağırlık ölçtüğü için bilgi vermez.</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="book-info-box">
+                            <span class="book-info-tag">📘 BİLGİ KUTUSU (Sayfa 140)</span><br>
+                            <b>Dikdörtgenler Prizmasının Hacmi = (a · b) · c = Taban Alanı · Yükseklik</b>
+                        </div>
+                        <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+                    </div>
+                </div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('Harika! Dikdörtgenler prizmasının hacmi <b>Taban Alanı × Yükseklik = a · b · c</b> bağıntısıyla hızla hesaplanır!');
+        }
+
+        function highlightS140() { initAudio(); playSound('pop'); S.s140Highlighted = true; renderStep(); }
+        function checkS140(q, ok, btn) {
+            initAudio();
+            if ((q === 1 && S.s140Q5) || (q === 2 && S.s140NoteQ)) return;
+            if (ok) {
+                score += 25;
+                if (q === 1) { S.s140Q5 = true; S.s140Highlighted = true; playSound('correct'); launchConfetti('mini'); }
+                else { S.s140NoteQ = true; completeStep('Harika! Birim küpün ayrıtı 1 br, yüzeyi 1 br² olduğu için prizmanın hem uzunlukları hem taban alanı hem de hacmi kolayca bulunur!'); }
+                renderStep();
+            } else {
+                playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380);
+                showToast('✖ Birim küpün her ayrıtının 1 birim olduğunu hatırlayalım!', 'err');
+            }
+        }
+
+        // ==========================================
+        // ADIM 12: SAYFA 141 • KUK 5 (18 EŞ KÜPLE FARKLI PRİZMALAR)
+        // ==========================================
+        const KUK5_PRISMS = [
+            { nx: 18, ny: 1, nz: 1, label: '1 × 1 × 18', u: 7.2, col: { top: '#38bdf8', left: '#0ea5e9', right: '#0284c7', stroke: '#0f172a' } },
+            { nx: 9, ny: 1, nz: 2, label: '1 × 2 × 9', u: 12, col: { top: '#f472b6', left: '#ec4899', right: '#db2777', stroke: '#0f172a' } },
+            { nx: 6, ny: 1, nz: 3, label: '1 × 3 × 6', u: 15, col: { top: '#fbbf24', left: '#f59e0b', right: '#d97706', stroke: '#0f172a' } },
+            { nx: 3, ny: 2, nz: 3, label: '2 × 3 × 3', u: 19, col: { top: '#4ade80', left: '#22c55e', right: '#16a34a', stroke: '#0f172a' } }
+        ];
+
+        function renderS141Kuk5(body) {
+            const p = KUK5_PRISMS[S.kuk5Active];
+            const svg = buildIsoBoxSVG(p.nx, p.ny, p.nz, {
+                mode: 'full', unit: p.u, viewW: 300, viewH: 155, colors: p.col,
+                labels: { x: `${p.nx} br`, z: `${p.nz} br`, y: `${p.ny} br` }
+            });
+
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        🎨 <b>Katıl-Uygula-Keşfet 5 (Sayfa 141):</b> <b>18 adet eş küp</b> kullanarak birbirinden farklı dikdörtgenler prizmaları oluşturalım! Aşağıdaki 4 farklı tasarımı incele ve soruları cevapla.
+                    </div>
+                </div>
+                <div class="workspace-grid">
+                    <div class="model-box">
+                        <div class="box-header">
+                            <span class="pill-title">🧊 18 Eş Küp Tasarımcısı</span>
+                            <span class="pill-stat">Hacim = ${p.nx}×${p.ny}×${p.nz} = 18 br³</span>
+                        </div>
+                        ${svg}
+                        <div class="controls-row">
+                            ${KUK5_PRISMS.map((pr, idx) => `
+                                <button class="btn-action ${S.kuk5Active === idx ? 'pink' : (S.kuk5Seen[idx] ? 'teal' : 'gray')}" style="padding:6px 10px; font-size:12.5px;" onclick="pickKuk5(${idx})">${pr.label}</button>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="right-box">
+                        <div class="steps-stack">
+                            <div class="sub-step ${S.kuk5a ? 'solved' : ''}">
+                                <div class="sub-q"><b>a)</b> 18 eş küp kullanarak kaç farklı dikdörtgenler prizması elde edilir?</div>
+                                <div class="choice-row">
+                                    <button class="choice-btn" onclick="checkKuk5(1, false, this)">3 farklı</button>
+                                    <button class="choice-btn ${S.kuk5a ? 'correct' : ''}" onclick="checkKuk5(1, true, this)"><b>4 farklı</b> (1×1×18, 1×2×9, 1×3×6, 2×3×3)</button>
+                                    <button class="choice-btn" onclick="checkKuk5(1, false, this)">6 farklı</button>
+                                </div>
+                            </div>
+                            <div class="sub-step ${!S.kuk5a ? 'locked' : ''} ${S.kuk5b ? 'solved' : ''}">
+                                <div class="sub-q"><b>b)</b> Oluşturduğumuz prizmaların şekilleri değişse de hacimleri değişir mi?</div>
+                                <div class="choice-row">
+                                    <button class="choice-btn ${S.kuk5b ? 'correct' : ''}" onclick="checkKuk5(2, true, this)"><b>Değişmez!</b> Hepsi 18 eş küpten oluştuğu için hacimleri 18 br³'tür.</button>
+                                    <button class="choice-btn" onclick="checkKuk5(2, false, this)">Değişir, uzun olanın hacmi daha büyüktür.</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+                    </div>
+                </div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('Harika! 18 eş küple <b>4 farklı</b> dikdörtgenler prizması oluşturulur ve şekilleri farklı olsa da hepsinin hacmi <b>18 br³</b>\'tür!');
+        }
+
+        function pickKuk5(i) { initAudio(); playSound('pop'); S.kuk5Active = i; S.kuk5Seen[i] = true; renderStep(); }
+        function checkKuk5(q, ok, btn) {
+            initAudio();
+            if ((q === 1 && S.kuk5a) || (q === 2 && S.kuk5b)) return;
+            if (ok) {
+                score += 25;
+                if (q === 1) { S.kuk5a = true; playSound('correct'); launchConfetti('mini'); }
+                else { S.kuk5b = true; completeStep('Harika! 18 eş küple <b>4 farklı</b> prizma oluşturulur ve hepsinin hacmi <b>18 br³</b>\'tür!'); }
+                renderStep();
+            } else {
+                playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380);
+                showToast('✖ Soldaki 4 farklı 18 küplük prizma modelini inceleyelim!', 'err');
+            }
+        }
+
+        // ==========================================
+        // ADIM 13: SAYFA 141 • KUK 6 (FARKLI GÖRÜNÜMLERDE EŞİT HACİMLİ YAPILAR)
+        // ==========================================
+        function buildGridViewSVG(cols, rows, fill, label) {
+            const cw = 20, w = cols * cw + 6, h = rows * cw + 24;
+            let s = `<svg viewBox="0 0 ${w} ${h}" style="width:${w}px; max-width:95px; height:auto;">`;
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    s += `<rect x="${3 + c * cw}" y="${3 + r * cw}" width="${cw}" height="${cw}" fill="${fill}" stroke="#1e293b" stroke-width="1.5"/>`;
+                }
+            }
+            s += `<text x="${w / 2}" y="${h - 4}" text-anchor="middle" font-size="11.5" font-weight="900" fill="#1e3a5f">${label}</text></svg>`;
+            return s;
+        }
+
+        function renderS141Kuk6(body) {
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        👀 <b>Katıl-Uygula-Keşfet 6 (Sayfa 141):</b> Aşağıda önden ve üstten görünümleri verilen 3 yapının <b>hacimlerinin eşit</b> olduğu ve <b>yapılardan birinin (1. Yapı) dikdörtgenler prizması</b> olduğu bilinmektedir.
+                    </div>
+                </div>
+                <div class="tri-grid">
+                    <div class="mini-prism-card">
+                        <div class="pill-title" style="background:#0284c7;">1. Yapı (Dikdörtgenler Prizması)</div>
+                        <div style="display:flex; align-items:flex-end; gap:12px;">
+                            ${buildGridViewSVG(3, 2, '#0ea5e9', 'Önden (3×2)')}
+                            ${buildGridViewSVG(3, 3, '#7dd3fc', 'Üstten (3×3)')}
+                        </div>
+                        <div style="font-size:13px; font-weight:800; color:#0369a1;">3 × 3 × 2 = <b>18 Eş Küp</b></div>
+                    </div>
+                    <div class="mini-prism-card">
+                        <div class="pill-title" style="background:#db2777;">2. Yapı (Eşit Hacimli)</div>
+                        <div style="display:flex; align-items:flex-end; gap:12px;">
+                            ${buildGridViewSVG(3, 3, '#f472b6', 'Önden (3×3)')}
+                            ${buildGridViewSVG(3, 3, '#fbcfe8', 'Üstten (3×3)')}
+                        </div>
+                        <div style="font-size:13px; font-weight:800; color:#be185d;">Eşit Hacimli → <b>? Küp</b></div>
+                    </div>
+                    <div class="mini-prism-card">
+                        <div class="pill-title" style="background:#65a30d;">3. Yapı (Eşit Hacimli)</div>
+                        <div style="display:flex; align-items:flex-end; gap:12px;">
+                            ${buildGridViewSVG(3, 4, '#a3e635', 'Önden (3×4)')}
+                            ${buildGridViewSVG(3, 3, '#d9f99d', 'Üstten (3×3)')}
+                        </div>
+                        <div style="font-size:13px; font-weight:800; color:#4d7c0f;">Eşit Hacimli → <b>? Küp</b></div>
+                    </div>
+                </div>
+                <div class="steps-stack">
+                    <div class="sub-step ${S.kuk6a ? 'solved' : ''}">
+                        <div class="sub-q"><b>a)</b> Bu üç yapının her biri kaç adet eş küpten oluşmaktadır?</div>
+                        <div class="choice-row">
+                            <button class="choice-btn" onclick="checkKuk6(1, false, this)">12 eş küp</button>
+                            <button class="choice-btn ${S.kuk6a ? 'correct' : ''}" onclick="checkKuk6(1, true, this)"><b>18 eş küp</b></button>
+                            <button class="choice-btn" onclick="checkKuk6(1, false, this)">27 eş küp</button>
+                        </div>
+                    </div>
+                    <div class="sub-step ${!S.kuk6a ? 'locked' : ''} ${S.kuk6b ? 'solved' : ''}">
+                        <div class="sub-q"><b>b)</b> Farklı önden görünümlere sahip yapıların eşit hacme sahip olmaları hakkında ne söylenebilir?</div>
+                        <div class="choice-row">
+                            <button class="choice-btn ${S.kuk6b ? 'correct' : ''}" onclick="checkKuk6(2, true, this)">Farklı görünümlerdeki yapılar aynı sayıda (18) eş küpten oluşuyorsa <b>hacimleri eşittir</b>.</button>
+                            <button class="choice-btn" onclick="checkKuk6(2, false, this)">Önden görünümü büyük olan yapının hacmi her zaman daha büyüktür.</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('Süper! 1. Yapı 3×3×2 = <b>18 küplük</b> tam bir dikdörtgenler prizmasıdır. Diğer iki yapı da eşit hacimli olduğu için hepsi <b>18 eş küpten</b> oluşur!');
+        }
+
+        function checkKuk6(q, ok, btn) {
+            initAudio();
+            if ((q === 1 && S.kuk6a) || (q === 2 && S.kuk6b)) return;
+            if (ok) {
+                score += 25;
+                if (q === 1) { S.kuk6a = true; playSound('correct'); launchConfetti('mini'); }
+                else { S.kuk6b = true; completeStep('Süper! Farklı görünümlere sahip yapılar aynı sayıda (18) eş küpten oluşuyorsa <b>hacimleri eşittir</b>!'); }
+                renderStep();
+            } else {
+                playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380);
+                showToast('✖ 1. Yapı 3×3 tabanlı ve 2 katlı bir prizma (3×3×2 = 18)!', 'err');
+            }
+        }
+
+        // ==========================================
+        // ADIM 14: SAYFA 142 • DTA 9 (DORUK VE EMEL)
+        // ==========================================
+        function renderS142Dta9(body) {
+            const dorukSvg = buildIsoBoxSVG(3, 5, 3, {
+                mode: 'layers_y', filled: S.dorukLayers, unit: 15, viewW: 200, viewH: 175,
+                colors: { top: '#38bdf8', left: '#0ea5e9', right: '#0284c7', stroke: '#0f172a' },
+                labels: { x: '3 br', z: '3 br', y: '5 br' }
+            });
+            const emelSvg = buildIsoBoxSVG(3, 3, 3, {
+                mode: 'layers_y', filled: S.emelLayers, unit: 17, viewW: 200, viewH: 175,
+                colors: { top: '#f43f5e', left: '#e11d48', right: '#be123c', stroke: '#0f172a' },
+                labels: { x: '3 br', z: '3 br', y: '3 br' }
+            });
+
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        👦🏻👧🏻 <b>Düşün-Tartış-Açıkla 9 (Sayfa 142):</b> Doruk (mavi <b>kare prizma: 3×3×5</b>) ve Emel (kırmızı <b>küp: 3×3×3</b>) eş küplerle yapılarını oluşturmuştur. Katları doldurup hacimlerini bulalım!
+                    </div>
+                </div>
+                <div class="workspace-grid">
+                    <div class="model-box">
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%;">
+                            <div style="background:#fff; border:2px solid #7dd3fc; border-radius:12px; padding:7px; text-align:center;">
+                                <div style="font-weight:900; color:#0284c7;">👦🏻 Doruk (Kare Prizma)</div>
+                                ${dorukSvg}
+                                <button class="btn-action teal" style="padding:5px 10px; font-size:12px;" onclick="fillDta9('d')" ${S.dorukLayers >= 5 ? 'disabled' : ''}>
+                                    ${S.dorukLayers >= 5 ? '✅ 45 br³' : `🧱 +1 Kat (${S.dorukLayers * 9} br³)`}
+                                </button>
+                            </div>
+                            <div style="background:#fff; border:2px solid #fda4af; border-radius:12px; padding:7px; text-align:center;">
+                                <div style="font-weight:900; color:#be123c;">👧🏻 Emel (Küp)</div>
+                                ${emelSvg}
+                                <button class="btn-action pink" style="padding:5px 10px; font-size:12px;" onclick="fillDta9('e')" ${S.emelLayers >= 3 ? 'disabled' : ''}>
+                                    ${S.emelLayers >= 3 ? '✅ 27 br³' : `🧱 +1 Kat (${S.emelLayers * 9} br³)`}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-box">
+                        <div class="steps-stack">
+                            <div class="sub-step ${S.dta9Q1 ? 'solved' : ''}">
+                                <div class="sub-q"><b>1)</b> Doruk ve Emel'in oluşturduğu yapıların hacimleri sırasıyla kaç birimküptür?</div>
+                                <div class="choice-row">
+                                    <button class="choice-btn ${S.dta9Q1 ? 'correct' : ''}" onclick="checkDta9(1, true, this)"><b>Doruk = 45 br³</b>, <b>Emel = 27 br³</b></button>
+                                    <button class="choice-btn" onclick="checkDta9(1, false, this)">Doruk = 36 br³, Emel = 18 br³</button>
+                                </div>
+                            </div>
+                            <div class="sub-step ${!S.dta9Q1 ? 'locked' : ''} ${S.dta9Q2 ? 'solved' : ''}">
+                                <div class="sub-q"><b>2)</b> Kare prizma ve küpün hacmi için dikdörtgenler prizmasının hacim bağıntısı (<b>Taban Alanı × Yükseklik</b>) kullanılabilir mi?</div>
+                                <div class="choice-row">
+                                    <button class="choice-btn ${S.dta9Q2 ? 'correct' : ''}" onclick="checkDta9(2, true, this)"><b>Evet!</b> Kare prizma ve küp, dikdörtgenler prizmasının özel hâlleridir.</button>
+                                    <button class="choice-btn" onclick="checkDta9(2, false, this)">Hayır, her biri için tamamen farklı kurallar gerekir.</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="book-info-box">
+                            <span class="book-info-tag">📘 BİLGİ KUTUSU (Sayfa 142)</span><br>
+                            • Kare prizma (ör. 2×2×4 = 16 br³) ve küp (ör. 3×3×3 = 27 br³) aynı bağıntıyla hesaplanır.<br>
+                            • Üç ayrıt çarpıldığı için hacim birimi <b>br · br · br = br³</b> ile gösterilir!
+                        </div>
+                        <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+                    </div>
+                </div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('Harika! Doruk\'un kare prizması <b>3×3×5 = 45 br³</b>, Emel\'in küpü <b>3×3×3 = 27 br³</b>! Kare prizma ve küp dikdörtgenler prizmasının özel hâlleridir.');
+        }
+
+        function fillDta9(w) {
+            initAudio(); playSound('pop'); launchConfetti('mini');
+            if (w === 'd' && S.dorukLayers < 5) S.dorukLayers++;
+            if (w === 'e' && S.emelLayers < 3) S.emelLayers++;
+            renderStep();
+        }
+        function checkDta9(q, ok, btn) {
+            initAudio();
+            if ((q === 1 && S.dta9Q1) || (q === 2 && S.dta9Q2)) return;
+            if (ok) {
+                score += 25;
+                if (q === 1) { S.dta9Q1 = true; S.dorukLayers = 5; S.emelLayers = 3; playSound('correct'); launchConfetti('mini'); }
+                else { S.dta9Q2 = true; completeStep('Harika! Kare prizma ve küp, dikdörtgenler prizmasının özel hâlleri olduğu için aynı hacim bağıntısıyla (Taban Alanı × Yükseklik) hesaplanır!'); }
+                renderStep();
+            } else {
+                playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380);
+                showToast('✖ Taban 3×3 = 9 br² olduğuna göre kat sayısıyla çarpalım!', 'err');
+            }
+        }
+
+        // ==========================================
+        // ADIM 15: SAYFA 143 • NELER ÖĞRENDİK SORU 1 (a, b, c)
+        // ==========================================
+        const S143_Q1 = [
+            { title: 'a) Sarı Küp', dims: '20 br × 20 br × 20 br', ans: '8 000 br³', opts: ['4 000 br³', '8 000 br³', '12 000 br³'], w: 74, h: 74, col: '#eab308', side: '#ca8a04', top: '#fef08a' },
+            { title: 'b) Turuncu Prizma', dims: '30 br × 22 br × 45 br', ans: '29 700 br³', opts: ['27 900 br³', '29 700 br³', '31 500 br³'], w: 86, h: 100, col: '#d97706', side: '#b45309', top: '#fdba74' },
+            { title: 'c) Yeşil Kare Prizma', dims: '25 br × 25 br × 80 br', ans: '50 000 br³', opts: ['40 000 br³', '50 000 br³', '62 500 br³'], w: 78, h: 132, col: '#65a30d', side: '#4d7c0f', top: '#bef264' }
+        ];
+
+        function buildSolidPrismSVG(item) {
+            const x = 55, y = 152 - item.h;
+            return `<svg viewBox="0 0 210 165" style="width:100%; max-width:205px; height:auto;">
+                <polygon points="${x},${y} ${x + 28},${y - 18} ${x + item.w + 28},${y - 18} ${x + item.w},${y}" fill="${item.top}" stroke="#0f172a" stroke-width="2"/>
+                <polygon points="${x + item.w},${y} ${x + item.w + 28},${y - 18} ${x + item.w + 28},${y + item.h - 18} ${x + item.w},${y + item.h}" fill="${item.side}" stroke="#0f172a" stroke-width="2"/>
+                <rect x="${x}" y="${y}" width="${item.w}" height="${item.h}" fill="${item.col}" stroke="#0f172a" stroke-width="2"/>
+                <text x="105" y="162" text-anchor="middle" font-size="12.5" font-weight="900" fill="#1e3a5f">${item.dims}</text>
+            </svg>`;
+        }
+
+        function renderS143Q1(body) {
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        🧮 <b>Neler Öğrendik? • Soru 1 (Sayfa 143):</b> Ayrıt uzunlukları verilen prizmaların hacimlerini <b>br³</b> cinsinden hesaplayınız.
+                    </div>
+                </div>
+                <div class="tri-grid">
+                    ${S143_Q1.map((item, idx) => `
+                        <div class="mini-prism-card ${S.s143q1Done[idx] ? 'solved' : ''}">
+                            <div class="pill-title">${item.title}</div>
+                            ${buildSolidPrismSVG(item)}
+                            <div class="choice-row" style="flex-direction:column;">
+                                ${item.opts.map(opt => `
+                                    <button class="choice-btn ${S.s143q1Done[idx] && opt === item.ans ? 'correct' : ''}" onclick="checkS143Q1(${idx}, '${opt}', this)">${opt}</button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('Harika! a) 20×20×20 = <b>8 000 br³</b>, b) 30×22×45 = <b>29 700 br³</b>, c) 25×25×80 = <b>50 000 br³</b>!');
+        }
+
+        function checkS143Q1(idx, picked, btn) {
+            initAudio(); if (S.s143q1Done[idx]) return;
+            if (picked === S143_Q1[idx].ans) {
+                S.s143q1Done[idx] = true;
+                score += 20;
+                if (S.s143q1Done.every(Boolean)) completeStep('Harika! a) <b>8 000 br³</b>, b) <b>29 700 br³</b>, c) <b>50 000 br³</b>!');
+                else { playSound('correct'); launchConfetti('mini'); }
+                renderStep();
+            } else {
+                playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380);
+                showToast('✖ Üç ayrıtın çarpımını tekrar kontrol edelim!', 'err');
+            }
+        }
+
+        // ==========================================
+        // ADIM 16: SAYFA 143 • SORU 2 (DOĞRU / YANLIŞ)
+        // ==========================================
+        const S143_TF = [
+            { k: 'a', text: 'Bir dikdörtgenler prizmasının yüksekliği iki katına çıkarıldığında hacmi de 2 katına çıkar.', ans: 'D', why: 'Sadece yükseklik 2 katına çıkarsa hacim = a·b·(2c) = 2 katına çıkar!' },
+            { k: 'b', text: 'Bir kare prizmanın iki dik ayrıtının uzunluğu 2 katına çıkarıldığında hacmi de 2 katına çıkar.', ans: 'Y', why: 'İki ayrıt 2 katına çıkarsa 2 × 2 = 4 katına çıkar!' },
+            { k: 'c', text: 'Bir küpün her bir ayrıtının uzunluğu 3 katına çıkarıldığında hacmi de 3 katına çıkar.', ans: 'Y', why: 'Her ayrıt 3 katına çıkarsa 3 × 3 × 3 = 27 katına çıkar!' },
+            { k: 'ç', text: 'Bir dikdörtgenler prizmasının her bir ayrıtının uzunluğu 2 katına çıkarıldığında hacmi 8 katına çıkar.', ans: 'D', why: '2 × 2 × 2 = 8 katına çıkar!' },
+            { k: 'd', text: 'Bir dikdörtgenler prizmasının taban ayrıtlarından birinin uzunluğu 2 katına çıkarılıp yüksekliği yarıya indirildiğinde hacmi değişmez.', ans: 'D', why: '(2a) · b · (c/2) = a·b·c → Hacim değişmez!' }
+        ];
+
+        function renderS143Q2(body) {
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        ✅❌ <b>Neler Öğrendik? • Soru 2 (Sayfa 143):</b> Aşağıdaki ifadelerden doğru olanlar için <b>"D"</b>, yanlış olanlar için <b>"Y"</b> butonuna tıklayınız.
+                    </div>
+                </div>
+                <div class="steps-stack">
+                    ${S143_TF.map((item, idx) => `
+                        <div class="tf-row ${S.s143q2Done[idx] ? 'solved' : ''}">
+                            <div class="tf-text"><b>${item.k})</b> ${item.text}</div>
+                            <div class="tf-btns">
+                                <button class="tf-btn ${S.s143q2Done[idx] && item.ans === 'D' ? 'ok' : ''}" onclick="checkTF(${idx}, 'D', this)">D</button>
+                                <button class="tf-btn ${S.s143q2Done[idx] && item.ans === 'Y' ? 'ok' : ''}" onclick="checkTF(${idx}, 'Y', this)">Y</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('Süper! Doğru sıralama: <b>a) D, b) Y (4 katı), c) Y (27 katı), ç) D (8 katı), d) D (değişmez)</b>!');
+        }
+
+        function checkTF(idx, pick, btn) {
+            initAudio(); if (S.s143q2Done[idx]) return;
+            const item = S143_TF[idx];
+            if (pick === item.ans) {
+                S.s143q2Done[idx] = true;
+                score += 15;
+                showToast(`✔ Doğru! ${item.why}`, 'ok');
+                if (S.s143q2Done.every(Boolean)) completeStep('Süper! 5 ifadenin tamamını (<b>D, Y, Y, D, D</b>) doğru değerlendirdin!');
+                else { playSound('correct'); launchConfetti('mini'); }
+                renderStep();
+            } else {
+                playSound('wrong'); btn.classList.add('err'); setTimeout(() => btn.classList.remove('err'), 380);
+                showToast(`✖ İpucu: ${item.why}`, 'err');
+            }
+        }
+
+        // ==========================================
+        // ADIM 17: SAYFA 143 • SORU 3 (KESİLMİŞ PRİZMA)
+        // ==========================================
+        function renderS143Q3(body) {
+            const foundAll = S.s143q3Found.length === 3;
+            const candidates = [
+                { id: '1-6-6', txt: '1 br × 6 br × 6 br', ok: true },
+                { id: '2-3-6', txt: '2 br × 3 br × 6 br', ok: true },
+                { id: '3-3-4', txt: '3 br × 3 br × 4 br', ok: true },
+                { id: '1-4-9', txt: '1 br × 4 br × 9 br', ok: false, why: '9 br > 8 br olduğu için bu prizmadan kesilemez!' },
+                { id: '2-2-9', txt: '2 br × 2 br × 9 br', ok: false, why: '9 br > 8 br olduğu için bu prizmadan kesilemez!' }
+            ];
+
+            body.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-text">
+                        ✂️ <b>Neler Öğrendik? • Soru 3 (Sayfa 143):</b> Ayrıt uzunlukları <b>8 br, 7 br ve 5 br</b> olan dikdörtgenler prizmasından daha küçük bir dikdörtgenler prizması kesilip çıkarılmıştır. <b>Kalan cismin hacmi 244 br³</b> olduğuna göre kesilen prizmanın olası tüm doğal sayı ayrıtlarını bulup tabloyu tamamla!
+                    </div>
+                </div>
+                <div class="workspace-grid">
+                    <div class="model-box">
+                        <div class="box-header">
+                            <span class="pill-title">✂️ Kesilmiş Prizma Modeli</span>
+                            <span class="pill-stat">Büyük: 8×7×5 = 280 br³</span>
+                        </div>
+                        <svg viewBox="0 0 260 185" style="width:100%; max-width:245px; height:auto;">
+                            <!-- Büyük Prizma Sol-Ön -->
+                            <polygon points="48,54 128,96 128,170 48,128" fill="#5aa89e" stroke="#0f172a" stroke-width="2"/>
+                            <!-- Sağ-Ön kesik yüz -->
+                            <polygon points="128,96 206,56 206,130 128,170" fill="#7ec4bb" stroke="#0f172a" stroke-width="2"/>
+                            <!-- Üst L yüzeyi -->
+                            <polygon points="48,54 126,14 206,56 172,74 128,50 96,67 128,84 128,96" fill="#a2d9d2" stroke="#0f172a" stroke-width="2"/>
+                            <!-- Kesilen köşe iç duvarları -->
+                            <polygon points="128,50 172,74 172,114 128,90" fill="#478c83" stroke="#0f172a" stroke-width="1.6"/>
+                            <polygon points="96,67 128,50 128,90 96,107" fill="#3a756d" stroke="#0f172a" stroke-width="1.6"/>
+                            <polygon points="96,107 128,90 172,114 140,131" fill="#8fd0c8" stroke="#0f172a" stroke-width="1.6"/>
+                            <!-- Kesilen hayalet parça vurgusu -->
+                            <polyline points="96,67 140,90 172,74" fill="none" stroke="#e11d48" stroke-width="2" stroke-dasharray="4,3"/>
+                            <line x1="140" y1="90" x2="140" y2="131" stroke="#e11d48" stroke-width="2" stroke-dasharray="4,3"/>
+                            <text x="130" y="182" text-anchor="middle" font-size="12.5" font-weight="900" fill="#0f766e">Kalan = 244 br³ • Kesilen = ${S.s143q3Vol ? '36 br³' : '? br³'}</text>
+                        </svg>
+                        <table class="book-table">
+                            <tr><th>1. Ayrıt (br)</th><th>2. Ayrıt (br)</th><th>3. Ayrıt (br)</th></tr>
+                            ${[0, 1, 2].map(r => {
+                                const val = S.s143q3Found[r];
+                                const parts = val ? val.split('-') : ['...', '...', '...'];
+                                return `<tr><td class="${val ? 'hl-cell' : ''}">${parts[0]}</td><td class="${val ? 'hl-cell' : ''}">${parts[1]}</td><td class="${val ? 'hl-cell' : ''}">${parts[2]}</td></tr>`;
+                            }).join('')}
+                        </table>
+                    </div>
+
+                    <div class="right-box">
+                        <div class="steps-stack">
+                            <div class="sub-step ${S.s143q3Vol ? 'solved' : ''}">
+                                <div class="sub-q">1) Büyük prizmanın hacmi <b>8 × 7 × 5 = 280 br³</b>, kalan hacim <b>244 br³</b> olduğuna göre kesilen parçanın hacmi kaç br³'tür?</div>
+                                <div class="choice-row">
+                                    <button class="choice-btn" onclick="checkS143Q3Vol(false, this)">24 br³</button>
+                                    <button class="choice-btn ${S.s143q3Vol ? 'correct' : ''}" onclick="checkS143Q3Vol(true, this)"><b>36 br³</b> (280 - 244)</button>
+                                    <button class="choice-btn" onclick="checkS143Q3Vol(false, this)">46 br³</button>
+                                </div>
+                            </div>
+                            <div class="sub-step ${!S.s143q3Vol ? 'locked' : ''} ${foundAll ? 'solved' : ''}">
+                                <div class="sub-q">2) Çarpımı <b>36</b> olan ve <b>8, 7, 5</b> ayrıtlı prizmanın içinden kesilebilecek <b>3 doğru ayrıt üçlüsünü</b> seçip tabloya yerleştir (${S.s143q3Found.length}/3):</div>
+                                <div class="choice-row">
+                                    ${candidates.map(c => `
+                                        <button class="choice-btn ${S.s143q3Found.includes(c.id) ? 'correct' : ''}" onclick="pickCutTriple('${c.id}', ${c.ok}, '${c.why || ''}', this)">${c.txt}</button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-bar ${stepSolved[currentIdx] ? 'visible' : ''}" id="post-bar"></div>
+                    </div>
+                </div>
+            `;
+            if (stepSolved[currentIdx]) showPostBar('🏆 Muhteşem! Kesilen parçanın hacmi <b>36 br³</b>\'tür. Ayrıtları 8, 7 ve 5\'ten küçük olacağı için 3 olası durum vardır: <b>(1, 6, 6)</b>, <b>(2, 3, 6)</b> ve <b>(3, 3, 4)</b>!');
+        }
+
+        function checkS143Q3Vol(ok, btn) {
+            initAudio(); if (S.s143q3Vol) return;
+            if (ok) { S.s143q3Vol = true; score += 25; playSound('correct'); launchConfetti('mini'); renderStep(); }
+            else { playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380); showToast('✖ 280 - 244 çıkarma işlemini tekrar yapalım!', 'err'); }
+        }
+
+        function pickCutTriple(id, ok, why, btn) {
+            initAudio();
+            if (S.s143q3Found.includes(id)) return;
+            if (ok) {
+                S.s143q3Found.push(id);
+                score += 20;
+                if (S.s143q3Found.length === 3) {
+                    completeStep('🏆 Muhteşem! Sayfa 134\'ten 143\'e kadar olan tüm <b>Hacim ve Prizmalar</b> sorularını eksiksiz tamamladın!');
+                } else {
+                    playSound('correct'); launchConfetti('mini');
+                }
+                renderStep();
+            } else {
+                playSound('wrong'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 380);
+                showToast(`✖ ${why}`, 'err');
+            }
+        }
+
+        // ==========================================
+        // TAMAMLANMA & KONTROLLÜ BİLGİ KUTUSU
+        // ==========================================
+        function completeStep(noteHtml) {
+            if (!stepSolved[currentIdx]) {
+                stepSolved[currentIdx] = true;
+                score += 50;
+            }
+            playSound('fanfare');
+            launchConfetti('big');
+            updateHUD();
+            showPostBar(noteHtml);
+        }
+
+        function showPostBar(noteHtml) {
+            currentModalNote = noteHtml;
+            const bar = document.getElementById('post-bar');
+            if (!bar) return;
+            const isLast = (currentIdx === STEPS.length - 1);
+            bar.innerHTML = `
+                <button class="btn-action" onclick="openInfoModal()">💡 Bilgi Kutusunu Aç</button>
+                <button class="btn-action pink" onclick="nextStep()">${isLast ? '🏆 Büyük Atölyeyi Tamamla' : 'Sonraki Adım ➡️'}</button>
+            `;
+            bar.classList.add('visible');
+        }
+
+        function openInfoModal() {
+            playSound('tick');
+            document.getElementById('info-modal-text').innerHTML = currentModalNote;
+            const nextBtn = document.getElementById('info-modal-next');
+            nextBtn.innerText = currentIdx === STEPS.length - 1 ? '🏆 Büyük Atölyeyi Tamamla' : 'Sonraki Adım ➡️';
+            nextBtn.onclick = () => { closeInfoModal(); nextStep(); };
+            document.getElementById('info-modal').classList.add('open');
+        }
+
+        function closeInfoModal() {
+            playSound('tick');
+            document.getElementById('info-modal').classList.remove('open');
+        }
+
+        function showFinalCelebration() {
+            playSound('fanfare');
+            launchConfetti('big');
+            document.getElementById('info-modal-text').innerHTML = `
+                <b>Tebrikler! 🏆🧊🎉</b><br><br>
+                <b>Sayfa 134'ten 143'e</b> kadar olan tüm hacim etkinliklerini, 3D prizma modellemelerini ve değerlendirme sorularını eksiksiz tamamladın!<br><br>
+                Toplam Puanın: <b>${score} ⭐</b>
+            `;
+            const nextBtn = document.getElementById('info-modal-next');
+            nextBtn.innerText = '🔄 Baştan Oyna';
+            nextBtn.onclick = () => location.reload();
+            document.getElementById('info-modal').classList.add('open');
+        }
+
+        // ==========================================
+        // TOAST & BOLCA KONFETİ
+        // ==========================================
+        let toastTimer = null;
+        function showToast(msg, type = '') {
+            const el = document.getElementById('toast');
+            el.innerText = msg;
+            el.className = 'show' + (type ? ' ' + type : '');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+        }
+
+        const cCanvas = document.getElementById('confetti-canvas');
+        const cCtx = cCanvas.getContext('2d');
+        let confetti = [];
+        let animId = null;
+
+        function launchConfetti(size) {
+            cCanvas.width = window.innerWidth;
+            cCanvas.height = window.innerHeight;
+            const colors = ['#00b4cc', '#f472b6', '#ffca28', '#14b8a6', '#8b5cf6', '#fb7185'];
+            const count = size === 'big' ? 125 : 22;
+            for (let i = 0; i < count; i++) {
+                confetti.push({
+                    x: cCanvas.width * (size === 'big' ? (0.2 + Math.random() * 0.6) : 0.5),
+                    y: cCanvas.height * 0.45,
+                    vx: (Math.random() - 0.5) * 21,
+                    vy: -(Math.random() * 14 + 5),
+                    r: Math.random() * 5.5 + 3,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    life: 1
+                });
+            }
+            if (!animId) animateConfetti();
+        }
+
+        function animateConfetti() {
+            cCtx.clearRect(0, 0, cCanvas.width, cCanvas.height);
+            confetti = confetti.filter(p => p.life > 0);
+            confetti.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.45;
+                p.life -= 0.017;
+                cCtx.globalAlpha = Math.max(0, p.life);
+                cCtx.fillStyle = p.color;
+                cCtx.fillRect(p.x, p.y, p.r * 1.5, p.r);
+            });
+            cCtx.globalAlpha = 1;
+            if (confetti.length > 0) animId = requestAnimationFrame(animateConfetti);
+            else { cCtx.clearRect(0, 0, cCanvas.width, cCanvas.height); animId = null; }
+        }
+
+        window.onload = function () {
+            renderStep(true);
+        };
+    </script>
+</body>
+</html>
